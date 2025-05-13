@@ -4,7 +4,6 @@
     {
         public const string Role_Customer = "Customer";
         public const string Role_Admin = "Admin";
-        public const string Role_Staff = "Staff";
 
         public const string FormatPaperback = "Paperback";
         public const string FormatHardcover = "Hardcover";

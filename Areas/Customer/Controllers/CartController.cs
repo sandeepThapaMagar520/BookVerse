@@ -21,47 +21,11 @@ namespace BookLibraryStore.Areas.Customer.Controllers
         public IActionResult Index()
         {
             var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            var user = _context.ApplicationUsers.FirstOrDefault(u => u.Id == userId);
 
             var cartItems = _context.CartItems
                 .Include(c => c.Book)
                 .Where(c => c.UserId == userId)
                 .ToList();
-
-            var subtotal = cartItems.Sum(item => item.UnitPrice * item.Quantity);
-
-            // Apply discounts logic
-            decimal bulkDiscount = 0;
-            decimal loyaltyDiscount = 0;
-
-            var totalBooks = cartItems.Sum(c => c.Quantity);
-
-            var is5PercentApplied = false;
-            var is10PercentApplied = false;
-
-            if (totalBooks >= 5)
-            {
-                bulkDiscount = subtotal * 0.05m;
-                is5PercentApplied = true;
-            }
-
-            // Loyalty discount (check user's completed orders)
-            var hasLoyaltyDiscount = user is { HasStackableDiscount: true };
-
-            if (hasLoyaltyDiscount)
-            {
-                loyaltyDiscount = subtotal * 0.10m;
-                is10PercentApplied = true;
-            }
-
-            var totalDiscount = bulkDiscount + loyaltyDiscount;
-            var grandTotal = subtotal - totalDiscount;
-
-            ViewBag.TotalBooks = totalBooks;
-            ViewBag.SubTotal = subtotal;
-            ViewBag.BulkDiscount = bulkDiscount;
-            ViewBag.LoyaltyDiscount = loyaltyDiscount;
-            ViewBag.GrandTotal = grandTotal;
 
             return View(cartItems);
         }

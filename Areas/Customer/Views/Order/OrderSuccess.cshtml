@@ -68,9 +68,9 @@
         {
             <tr>
                 <td>@item.Book.Title</td>
-                <td>Rs. @item.UnitPrice</td>
+                <td>Rs.@item.UnitPrice</td>
                 <td>@item.Quantity</td>
-                <td>Rs. @(item.UnitPrice * item.Quantity)</td>
+                <td>Rs.@(item.UnitPrice * item.Quantity)</td>
             </tr>
         }
     </tbody>
@@ -80,25 +80,25 @@
 <table class="table">
     <tr>
         <th>Subtotal</th>
-        <td>Rs. @Model.Subtotal</td>
+        <td>Rs.@Model.Subtotal</td>
     </tr>
     @if (Model.BulkDiscountAmount > 0)
     {
         <tr>
             <th>Bulk Discount (5%)</th>
-            <td class="text-success">-Rs. @Model.BulkDiscountAmount</td>
+            <td class="text-success">-@Model.BulkDiscountAmount.ToString("C")</td>
         </tr>
     }
     @if (Model.LoyaltyDiscountAmount > 0)
     {
         <tr>
             <th>Loyalty Discount (10%)</th>
-            <td class="text-success">-Rs. @Model.LoyaltyDiscountAmount</td>
+            <td class="text-success">-Rs.@Model.LoyaltyDiscountAmount</td>
         </tr>
     }
     <tr>
         <th>Total Discount</th>
-        <td class="text-success">-Rs. @Model.TotalDiscountAmount</td>
+        <td class="text-success">-Rs.@Model.TotalDiscountAmount</td>
     </tr>
     <tr>
         <th>Grand Total</th>
@@ -106,12 +106,7 @@
     </tr>
 </table>
 
-@if (User.IsInRole(SD.Role_Customer) && @Model.Status == SD.OrderCancelled)
+@if (User.IsInRole(SD.Role_Customer))
 {
-    <a asp-controller="Order" asp-action="ReOrder" asp-route-orderId="@Model.Id" class="btn btn-primary w-25">Re-Order</a>
-}
-@if (User.IsInRole(SD.Role_Customer) && @Model.Status == SD.OrderPending)
-{
-    <a asp-controller="Order" asp-action="CancelOrder" asp-route-orderId="@Model.Id" class="btn btn-danger w-25">Cancel</a>
-
+    <a asp-controller="Order" asp-action="ReOrder" asp-route-orderId="@Model.Id" class="btn btn-primary">Re-Order</a>
 }

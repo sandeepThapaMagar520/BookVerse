@@ -3,9 +3,27 @@
 @if (Model != null && Model.Any())
 {
     <div id="announcementBanner" class="announcement-banner bg-warning text-dark p-2 text-center position-relative">
+        <button type="button" class="btn-close position-absolute top-0 end-0 m-2 text-black" aria-label="Close" onclick="dismissBanner()">
+            <i class="bi bi-x-circle-fill"></i>
+        </button>
+
         @foreach (var announcement in Model)
         {
-            <strong style="width: 100% !important">@announcement.Title: </strong> @announcement.Message;
+            <strong>@announcement.Title: </strong> @announcement.Message;
         }
     </div>
+
+    <script>
+        function dismissBanner() {
+            document.getElementById('announcementBanner').style.display = 'none';
+            // Save dismissal in localStorage
+            localStorage.setItem('announcementDismissed', 'true');
+        }
+
+        window.onload = function () {
+            if (localStorage.getItem('announcementDismissed') === 'true') {
+                document.getElementById('announcementBanner').style.display = 'none';
+            }
+        }
+    </script>
 }

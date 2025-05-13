@@ -17,12 +17,10 @@ namespace BookLibraryStore.Areas.Identity.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public ConfirmEmailModel(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager)
+        public ConfirmEmailModel(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
         }
 
         /// <summary>
@@ -31,10 +29,8 @@ namespace BookLibraryStore.Areas.Identity.Pages.Account
         /// </summary>
         [TempData]
         public string StatusMessage { get; set; }
-        public async Task<IActionResult> OnGetAsync(string userId, string code, string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string userId, string code)
         {
-            returnUrl ??= Url.Content("~/");
-
             if (userId == null || code == null)
             {
                 return RedirectToPage("/Index");
@@ -48,23 +44,8 @@ namespace BookLibraryStore.Areas.Identity.Pages.Account
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
-
-            if (result.Succeeded)
-            {
-                // Auto-login the user after confirming their email
-                await _signInManager.SignInAsync(user, isPersistent: false);
-
-                // Optional: set a success message via TempData
-                TempData["success"] = "Your email has been confirmed and you are now signed in.";
-
-                // Redirect to a secured page or home
-                return LocalRedirect(returnUrl);
-            }
-
-            // If confirmation failed, show an error page
-            TempData["error"] = "There was an error confirming your email.";
+            StatusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
             return Page();
         }
-
     }
 }

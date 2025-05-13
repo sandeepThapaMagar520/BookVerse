@@ -2,12 +2,19 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 using BookLibraryStore.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace BookLibraryStore.Areas.Identity.Pages.Account
 {
@@ -112,12 +119,12 @@ namespace BookLibraryStore.Areas.Identity.Pages.Account
                 {
                     var user = await _userManager.FindByEmailAsync(Input.Email);
                     var roles = await _userManager.GetRolesAsync(user);
-                    if (roles.Contains(SD.Role_Admin) || roles.Contains(SD.Role_Staff))
+                    if (roles.Contains(SD.Role_Admin))
                     {
                         return RedirectToAction("Index", "Order",new { area = "Customer" });
                     }
                     _logger.LogInformation("User logged in.");
-                    return RedirectToAction("Index", "Home", new { area = "Customer" });
+                    return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {

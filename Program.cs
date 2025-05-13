@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity; 
 using BookLibraryStore.Data;
 using BookLibraryStore.Data.Service;
 using BookLibraryStore.Data.Service.IService;
@@ -19,7 +19,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.Configure<EmailSetting>(builder.Configuration.GetSection("EmailSettings"));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+//options => options.SignIn.RequireConfirmedAccount = true
 
 builder.Services.ConfigureApplicationCookie(options =>
 {

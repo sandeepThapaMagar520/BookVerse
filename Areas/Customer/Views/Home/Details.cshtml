@@ -1,5 +1,5 @@
-﻿@using BookLibraryStore.Models.EntityModel
-@using BookLibraryStore.Utility
+﻿@using BookLibraryStore.Utility
+@using BookLibraryStore.Models.EntityModel
 @model BookLibraryStore.Models.EntityModel.Book
 
 @{
@@ -7,62 +7,412 @@
 }
 
 <style>
-    img {
-        border-radius: 10px;
+    :root {
+        --primary-color: #2c3e50;
+        --accent-color: #e74c3c;
+        --background-color: #f8f9fa;
+        --text-color: #2d3436;
+        --light-gray: #ecf0f1;
+        --dark-gray: #636e72;
+        --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        --transition: all 0.3s ease;
     }
 
-    h2, h4 {
-        margin-bottom: 0.5rem;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
-    ul li {
-        margin-bottom: 0.3rem;
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
     }
 
-</style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 30px 20px;
+    }
 
-<link rel="stylesheet" href="~/css/bookDetails.css" />
+    .book-container {
+        display: flex;
+        gap: 40px;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    .book-image-container {
+        flex: 0 0 300px;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .book-image-container:hover {
+            transform: translateY(-5px);
+        }
+
+    .book-image {
+        width: 100%;
+        height: auto;
+        display: block;
+        border-radius: 8px;
+        max-height: 500px;
+        object-fit: cover;
+        transition: var(--transition);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+        .book-image:hover {
+            transform: scale(1.02);
+        }
+
+    .book-genres {
+        display: flex;
+        margin-top: 20px;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .genre-tag {
+        background-color: var(--primary-color);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 30px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: var(--transition);
+    }
+
+        .genre-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 25px;
+    }
+
+    .add-to-cart-btn {
+        flex: 1;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 27px 16px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .add-to-cart-btn:hover {
+            background-color: #1e2a3a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+    .buy-now-btn {
+        flex: 1;
+        background-color: var(--accent-color);
+        color: white;
+        border: none;
+        padding: 14px 0;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .buy-now-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+    .price-tag {
+        margin-left: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    .book-details-container {
+        flex: 1;
+        min-width: 300px;
+    }
+
+    .book-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        color: var(--text-color);
+        line-height: 1.2;
+    }
+
+    .book-author {
+        font-size: 1.5rem;
+        color: var(--accent-color);
+        margin-bottom: 25px;
+        font-weight: 500;
+    }
+
+    .book-quote {
+        font-style: italic;
+        border-left: 4px solid var(--primary-color);
+        padding: 12px 20px;
+        margin-bottom: 25px;
+        color: var(--dark-gray);
+        background-color: rgba(44, 62, 80, 0.05);
+        border-radius: 0 8px 8px 0;
+    }
+
+        .book-quote p {
+            font-size: 1.1rem;
+        }
+
+    .book-description {
+        margin-bottom: 30px;
+        line-height: 1.8;
+        color: #444;
+        font-size: 1.05rem;
+    }
+
+    .product-specs {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        margin-top: 30px;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+    }
+
+        .product-specs:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+    .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 20px;
+        color: var(--primary-color);
+        position: relative;
+        padding-bottom: 10px;
+    }
+
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+            border-radius: 3px;
+        }
+
+    .spec-row {
+        display: flex;
+        padding: 12px 0;
+        border-bottom: 1px solid var(--light-gray);
+    }
+
+        .spec-row:last-child {
+            border-bottom: none;
+        }
+
+    .spec-name {
+        flex: 0 0 120px;
+        font-weight: 600;
+        color: var(--dark-gray);
+    }
+
+    .spec-value {
+        flex: 1;
+        color: var(--text-color);
+    }
+
+    .reviews-section {
+        margin-top: 50px;
+    }
+
+    .reviews-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 25px;
+    }
+
+    .review-card {
+        background-color: #fff;
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 20px;
+        box-shadow: var(--card-shadow);
+        transition: var(--transition);
+    }
+
+        .review-card:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+    .review-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+    }
+
+    .reviewer-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .reviewer-name {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--primary-color);
+    }
+
+    .review-date {
+        color: var(--dark-gray);
+        font-size: 0.9rem;
+        margin-top: 4px;
+    }
+
+    .review-rating {
+        color: #f39c12;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+    }
+
+    .review-content {
+        line-height: 1.7;
+        color: #444;
+    }
+
+    /* Modal styling */
+    .modal-content {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal-header {
+        border-bottom: 1px solid var(--light-gray);
+        padding: 20px 25px;
+    }
+
+    .modal-body {
+        padding: 25px;
+    }
+
+    .modal-footer {
+        border-top: 1px solid var(--light-gray);
+        padding: 20px 25px;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: var(--dark-gray);
+    }
+
+    .form-select, .form-control {
+        border-radius: 8px;
+        padding: 12px;
+        border: 1px solid var(--light-gray);
+        transition: var(--transition);
+    }
+
+        .form-select:focus, .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+        }
+
+    .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: var(--transition);
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+
+        .btn-primary:hover {
+            background-color: #1e2a3a;
+            border-color: #1e2a3a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .btn-secondary {
+        background-color: #95a5a6;
+        border-color: #95a5a6;
+    }
+
+        .btn-secondary:hover {
+            background-color: #7f8c8d;
+            border-color: #7f8c8d;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
 
 <div class="container">
     <div class="book-container">
+        <!-- Book Image Container -->
         <div class="book-image-container">
-            <img src="@Model.CoverImageUrl" alt="@Model.Title" class="book-image">
+            <img src="@Model.CoverImageUrl" alt="@Model.Title" class="book-image" />
 
             <div class="book-genres">
                 <span class="genre-tag">@Model.Genre</span>
             </div>
 
-            <div class="action-buttons">
-                <!-- Add to Cart or Buy Button -->
-                <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post" class="w-100">
-                    <input type="hidden" name="bookId" value="@Model.Id" />
-                    <input type="number" name="quantity" value="1" min="1" hidden />
-                    <button type="submit" class="add-to-cart-btn w-100">Add to Cart</button>
-                </form>
-            </div>
-
-            @if (User.IsInRole(SD.Role_Customer))
+            @if (Model.StockQuantity > 0 && User.IsInRole(SD.Role_Customer))
             {
                 <div class="action-buttons">
+                    <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post" class="w-100">
+                        <input type="hidden" name="bookId" value="@Model.Id" />
+                        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+                    </form>
                     <form asp-controller="Bookmark" asp-action="Add" method="post" class="w-100">
                         <input type="hidden" name="bookId" value="@Model.Id" />
-                        <button type="submit" class="add-to-cart-btn w-100">Bookmark</button>
+                        <button type="submit" class="buy-now-btn">
+                            Buy Now <span class="price-tag">Rs.@Model.Price</span>
+                        </button>
                     </form>
                 </div>
             }
         </div>
 
+        <!-- Book Details Container -->
         <div class="book-details-container">
             <h1 class="book-title">@Model.Title</h1>
             <h2 class="book-author">@Model.Author</h2>
 
             <div class="book-quote">
-                'One thing's for certain: The truth will come out, even if it's only those truths its characters choose to believe. Let the book club debates begin!' —ABC Arts
+                <p>⭐ @Model.AverageRating.ToString("0.0") / 5 | @Model.ReviewCount Reviews</p>
             </div>
 
             <div class="book-description">
-                <p>It was as if the present and the past were linked: a spider's web, wherein a shock to one strand could make the whole structure shake.</p>
-                <br>
                 <p>@Model.Description</p>
             </div>
 
@@ -71,7 +421,7 @@
 
                 <div class="spec-row">
                     <div class="spec-name">Publisher</div>
-                    <div class="spec-value">@Model.Publisher (@Model.PublicationDate.ToString("MMMM dd, yyyy"))</div>
+                    <div class="spec-value">@Model.Publisher</div>
                 </div>
 
                 <div class="spec-row">
@@ -85,80 +435,25 @@
                 </div>
 
                 <div class="spec-row">
-                    <div class="spec-name">ISBN</div>
-                    <div class="spec-value">@Model.ISBN</div>
+                    <div class="spec-name">Published</div>
+                    <div class="spec-value">@Model.PublicationDate.ToString("MMMM dd, yyyy")</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="reviews-section" id="reviews">
+    <!-- Reviews Section (keep existing reviews section) -->
+    <div class="reviews-section">
         <div class="reviews-header">
             <h2 class="section-title">Customer Reviews (@Model.ReviewCount)</h2>
-
             @if (ViewBag.hasPurchase && !ViewBag.isReview)
             {
-                <button class="write-review-btn" type="button" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewModal">
                     Write a Review
                 </button>
             }
-
         </div>
 
-
-        @if (ViewBag.hasPurchase)
-        {
-            if (ViewBag.isReview)
-            {
-                <!-- User's own review -->
-                @if (ViewBag.UserReview != null)
-                {
-                    var userReview = (Review)ViewBag.UserReview;
-
-                    <div class="review-card">
-                        <div class="review-header">
-                            <div class="reviewer-info">
-                                <div class="reviewer-avatar">
-                                    @($"{userReview.User.FirstName.Substring(0, 1).ToUpper()}{userReview.User.LastName.Substring(0, 1).ToUpper()}")
-                                </div>
-                                <div>
-                                    <div class="reviewer-name">@userReview.User.FirstName @userReview.User.LastName</div>
-                                    <div class="review-date">@userReview.CreatedAt.ToString("MMMM dd, yyyy")</div>
-                                </div>
-                            </div>
-                            <div class="review-rating">
-                                @{
-                                    int rating = userReview.Rating;
-                                }
-
-                                <div class="review-rating">
-                                    @for (int i = 1; i <= 5; i++)
-                                    {
-                                        if (i <= rating)
-                                        {
-                                            @:<span style="color: gold;">&#9733;</span>
-                                        }
-                                        else
-                                        {
-                                            @:<span style="color: lightgray;">&#9733;</span>
-                                        }
-                                    }
-                                </div>
-
-                            </div>
-                        </div>
-                        <div class="review-content">
-                            <p>
-                                @userReview.Comment
-                            </p>
-                        </div>
-                    </div>
-                }
-            }
-        }
-
-
-        <!-- Other users' reviews -->
         @if (((List<Review>)ViewBag.OtherReviews).Any())
         {
             foreach (var review in (List<Review>)ViewBag.OtherReviews)
@@ -166,84 +461,60 @@
                 <div class="review-card">
                     <div class="review-header">
                         <div class="reviewer-info">
-                            <div class="reviewer-avatar">
-                                @($"{review.User.FirstName.Substring(0, 1).ToUpper()}{review.User.LastName.Substring(0, 1).ToUpper()}")
-                            </div>
                             <div>
                                 <div class="reviewer-name">@review.User.FirstName @review.User.LastName</div>
-                                <div class="review-date">@review.CreatedAt.ToString("yyyy MMMM dd")</div>
+                                <div class="review-date">Reviewed on @review.CreatedAt.ToShortDateString()</div>
                             </div>
                         </div>
                         <div class="review-rating">
-                            <div class="review-rating">
-                                @{
-                                    int rating = review.Rating;
-                                }
-
-                                <div class="review-rating">
-                                    @for (int i = 1; i <= 5; i++)
-                                    {
-                                        if (i <= rating)
-                                        {
-                                            @:<span style="color: gold;">&#9733;</span>
-                                        }
-                                        else
-                                        {
-                                            @:<span style="color: lightgray;">&#9733;</span>
-                                        }
-                                    }
-                                </div>
-
-                            </div>
+                            @for (int i = 0; i < review.Rating; i++)
+                            {
+                                <span>★</span>
+                            }
                         </div>
                     </div>
                     <div class="review-content">
-                        <p>
-                            @review.Comment
-                        </p>
+                        <p>@review.Comment</p>
                     </div>
                 </div>
             }
         }
+    </div>
+</div>
 
-
-        <!-- Review Modal -->
-        <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <form method="post" asp-action="SubmitReview" asp-controller="Review">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="reviewModalLabel">Write a Review</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-
-                            <input type="hidden" name="BookId" value="@Model.Id" />
-
-                            <div class="mb-3">
-                                <label for="rating" class="form-label">Rating (1 to 5)</label>
-                                <select name="Rating" class="form-select" required>
-                                    <option value="5">⭐⭐⭐⭐⭐ (5)</option>
-                                    <option value="4">⭐⭐⭐⭐ (4)</option>
-                                    <option value="3">⭐⭐⭐ (3)</option>
-                                    <option value="2">⭐⭐ (2)</option>
-                                    <option value="1">⭐ (1)</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="comment" class="form-label">Comment</label>
-                                <textarea name="Comment" class="form-control" maxlength="500" required></textarea>
-                            </div>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Submit Review</button>
-                        </div>
-                    </form>
+<!-- Keep existing Review Modal from the original view -->
+<div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="SubmitReview" asp-controller="Review">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reviewModalLabel">Write a Review</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-            </div>
+                <div class="modal-body">
+                    <input type="hidden" name="BookId" value="@Model.Id" />
+
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Rating (1 to 5)</label>
+                        <select name="Rating" class="form-select" required>
+                            <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                            <option value="4">⭐⭐⭐⭐ (4)</option>
+                            <option value="3">⭐⭐⭐ (3)</option>
+                            <option value="2">⭐⭐ (2)</option>
+                            <option value="1">⭐ (1)</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Comment</label>
+                        <textarea name="Comment" class="form-control" maxlength="500" required></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

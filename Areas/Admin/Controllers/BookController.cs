@@ -13,7 +13,7 @@ namespace BookLibraryStore.Areas.Admin.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public BookController(ApplicationDbContext context, IWebHostEnvironment webHostEnvironment)
+        public BookController(ApplicationDbContext context,IWebHostEnvironment webHostEnvironment)
         {
             _context = context;
             _webHostEnvironment = webHostEnvironment;
@@ -21,6 +21,7 @@ namespace BookLibraryStore.Areas.Admin.Controllers
         public IActionResult Index()
         {
             var books = _context.Books
+                .Where(b => b.IsActive)
                 .ToList();
 
             return View(books);
@@ -68,7 +69,7 @@ namespace BookLibraryStore.Areas.Admin.Controllers
 
         public IActionResult Edit(int id)
         {
-            var book = _context.Books.FirstOrDefault(b => b.Id == id);
+            var book = _context.Books.FirstOrDefault(b => b.Id == id && b.IsActive);
             if (book == null)
             {
                 return NotFound();

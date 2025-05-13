@@ -4,102 +4,55 @@
     ViewData["Title"] = "My Cart";
 }
 
-<link rel="stylesheet" href="~/css/cart.css" asp-append-version="true" />
+<h2>My Shopping Cart</h2>
 
-<h1>Your Cart</h1>
-
-<div class="cart-layout">
-    <div class="cart-items">
-        @if (!Model.Any())
+@if (!Model.Any())
+{
+    <p>Your cart is empty.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Book</th>
+            <th>Cover</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th scope="col" colspan="2" class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in Model)
         {
-            <p>Your cart is empty.</p>
+            <tr>
+                <td>@item.Book.Title</td>
+                <td>
+                    <img src="@item.Book.CoverImageUrl" width="60" />
+                </td>
+                <td>Rs.@item.UnitPrice</td>
+                <td>@item.Quantity</td>
+                <td>Rs.@(item.UnitPrice * item.Quantity)</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <a asp-action="Minus" asp-route-cartId="@item.Id" class="btn btn-sm btn-outline-secondary me-1">-</a>
+                        <span>@item.Quantity</span>
+                        <a asp-action="Plus" asp-route-cartId="@item.Id" class="btn btn-sm btn-outline-secondary ms-1">+</a>
+                    </div>
+                </td>
+                <td>
+                    <a asp-action="Remove" asp-route-cartId="@item.Id" class="btn btn-sm btn-danger">Remove</a>
+                </td>
+            </tr>
         }
-        else
-        {
-            @foreach (var item in Model)
-            {
-                <div class="cart-item">
-                    <div class="cart-item-image">
-                        <img src="@item.Book.CoverImageUrl" alt="Mystery of the Lost Island book cover">
-                    </div>
-                    <div class="cart-item-details">
-                        <div class="cart-item-title">@item.Book.Title</div>
-                        <div class="cart-item-author">@item.Book.Author</div>
-                    </div>
-                    <div class="cart-item-price">Rs. @item.UnitPrice</div>
-                    <div class="cart-item-price">
-                        <div class="d-flex align-items-center">
+        </tbody>
+    </table>
 
-                            @if (item.Quantity != 1)
-                            {
+    <p class="fw-bold">
+        Grand Total: 
+        Rs.@Model.Sum(x => x.UnitPrice * x.Quantity)
+    </p>
 
-                                <a asp-action="Minus" asp-route-cartId="@item.Id" class="btn btn-outline-secondary btn-sm px-3 me-2">-</a>
-                            }
-                            <span class="fw-bold mx-2">@item.Quantity</span>
-                            @if (item.Quantity != item.Book.StockQuantity)
-                            {
-
-                                <a asp-action="Plus" asp-route-cartId="@item.Id" class="btn btn-outline-secondary btn-sm px-3 ms-2">+</a>
-                            }
-
-                        </div>
-                    </div>
-                    <button class="remove-item">
-                        <svg class="remove-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                        </svg>
-                    </button>
-                </div>
-            }
-        }
-    </div>
-
-    @if (Model.Any())
-    {
-        <div class="order-summary">
-            <div class="order-summary-title">Order Summary</div>
-
-            <div class="summary-row">
-                <div>Sub Total</div>
-                <div>Rs. @ViewBag.SubTotal</div>
-            </div>
-
-            <div class="summary-row">
-                <div>Bulk Discount</div>
-                <div>Rs. @ViewBag.BulkDiscount</div>
-            </div>
-
-            <div class="summary-row">
-                <div>Loyalty Discount</div>
-                <div>Rs. @ViewBag.LoyaltyDiscount</div>
-            </div>
-
-            @{
-                int totalBooks = ViewBag.TotalBooks ?? 0;
-                int booksNeeded = 5 - totalBooks;
-            }
-
-            <div class="shipping-note">
-                @if (booksNeeded > 0)
-                {
-                    <text>
-                        You're just <strong>@booksNeeded</strong> @(booksNeeded == 1 ? "book" : "books") away from <strong>5% Discount</strong>!
-                    </text>
-                }
-                else
-                {
-                    <text>
-                        🎉 Congrats! You’ve unlocked a <strong>5% Discount</strong> on your order!
-                    </text>
-                }
-            </div>
-
-            <div class="summary-row total">
-                <div>Total</div>
-                <div>Rs. @ViewBag.GrandTotal</div>
-            </div>
-
-            <a class="checkout-btn text-center text-decoration-none" asp-area="Customer" asp-controller="Order" asp-action="PlaceOrder">Place Order</a>
-        </div>
-    }
-</div>
+    <a asp-area="Customer" asp-controller="Order" asp-action="PlaceOrder" class="btn btn-success w-25">Place Order</a>
+}

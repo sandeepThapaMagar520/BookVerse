@@ -297,39 +297,6 @@ namespace BookLibraryStore.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Authorize(Roles = SD.Role_Customer)]
-        public IActionResult CancelOrder(int orderId)
-        {
-            var order = _context.Orders.FirstOrDefault(o => o.Id == orderId);
-
-            if (order == null)
-            {
-                TempData["error"] = "Order not found.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            var userId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (order.UserId != userId)
-            {
-                TempData["error"] = "You are not authorized to cancel this order.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            if (order.Status == SD.OrderCancelled)
-            {
-                TempData["info"] = "Order is already cancelled.";
-                return RedirectToAction(nameof(Index));
-            }
-
-            order.Status = SD.OrderCancelled;
-            _context.Orders.Update(order);
-            _context.SaveChanges();
-
-            TempData["success"] = "Order cancelled successfully.";
-            return RedirectToAction(nameof(Index));
-        }
-
-
         public string GenerateOrderSuccessEmail(Order order, List<OrderItem> items)
         {
             var sb = new StringBuilder();

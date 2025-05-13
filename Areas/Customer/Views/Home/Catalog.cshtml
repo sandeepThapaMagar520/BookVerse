@@ -1,114 +1,515 @@
 ﻿@using BookLibraryStore.Utility
 @model List<BookLibraryStore.Models.EntityModel.Book>
-
 @{
-    ViewData["Title"] = "Book Catalog";
-
-    int totalPages = (int)Math.Ceiling((double)ViewBag.TotalItems / ViewBag.PageSize);
-    int currentPage = ViewBag.CurrentPage;
+ViewData["Title"] = "Bestselling Books";
+int totalPages = (int)Math.Ceiling((double)ViewBag.TotalItems / ViewBag.PageSize);
+int currentPage = ViewBag.CurrentPage;
 }
 
-<link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
 
-<div class="container my-4">
+    body {
+        background-color: #f9f9f9;
+        color: #333;
+        padding: 20px;
+    }
 
-    <!-- Search & Filters -->
-    <form method="get" class="d-flex align-items-center gap-2 flex-wrap mb-4">
-        <input type="text" name="search" value="@ViewBag.Search" class="form-control w-auto" placeholder="Search by title or author" style="min-width: 200px;" />
+    h1 {
+        color: #2c3e50;
+        margin-bottom: 30px;
+        font-size: 32px;
+        font-weight: 600;
+        margin-left: 40px;
+    }
 
-        <select name="genre" class="form-select w-auto" style="min-width: 150px;">
-            <option value="">All Genres</option>
-            @foreach (var genre in (List<string>)ViewBag.Genres)
-            {
-                <option value="@genre" selected="@(ViewBag.SelectedGenre == genre ? "selected" : null)">
-                    @genre
-                </option>
+    .container {
+        display: flex;
+        max-width: 1300px;
+        margin: 0 auto;
+        gap: 30px;
+        padding: 0 10px;
+    }
+
+    .sidebar {
+        width: 240px;
+        flex-shrink: 0;
+    }
+
+    .filter-section {
+        margin-bottom: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .apply-filters-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #1e3a8a;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        margin-top: 15px;
+    }
+
+        .apply-filters-btn:hover {
+            background-color: #172b68;
+        }
+
+    /* Radio and Checkbox Styling */
+    .checkbox-item input[type="radio"],
+    .checkbox-item input[type="checkbox"] {
+        margin-right: 10px;
+    }
+
+        .checkbox-item input[type="radio"]:checked,
+        .checkbox-item input[type="checkbox"]:checked {
+            accent-color: #1e3a8a;
+        }
+
+    .filter-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        font-weight: 500;
+        color: #2c3e50;
+        cursor: pointer;
+        border-bottom: 1px solid #eee;
+        background-color: #f8f9fa;
+    }
+
+        .filter-header h3 {
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+    .chevron {
+        font-size: 18px;
+        transition: transform 0.3s;
+    }
+
+        .chevron.down {
+            transform: rotate(180deg);
+        }
+
+    .filter-content {
+        padding: 15px;
+    }
+
+    .checkbox-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: #555;
+    }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+    .main-content {
+        flex-grow: 1;
+    }
+
+    .books-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .book-card {
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        position: relative;
+        padding: 15px 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .wishlist-icon {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: #ccc;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+
+        .wishlist-icon:hover {
+            color: #e74c3c;
+        }
+
+    .book-cover {
+        width: 170px;
+        height: 240px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-title {
+        font-size: 18px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 5px;
+    }
+
+    .book-author {
+        font-size: 14px;
+        color: #777;
+        margin-bottom: 10px;
+    }
+
+    .book-price {
+        font-size: 15px;
+        font-weight: 500;
+        color: #333;
+        margin-bottom: 15px;
+    }
+
+        .book-price .discounted-price {
+            color: #e74c3c;
+            margin-right: 10px;
+        }
+
+        .book-price .original-price {
+            text-decoration: line-through;
+            color: #777;
+            font-size: 13px;
+        }
+
+    .add-to-cart {
+        background-color: #1e3a8a;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        width: 100%;
+    }
+
+        .add-to-cart:hover {
+            background-color: #172b68;
+        }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+        gap: 5px;
+    }
+
+        .pagination button,
+        .pagination a.page-link,
+        .pagination .prev,
+        .pagination .next {
+            min-width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            color: #555;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+            .pagination button:hover,
+            .pagination a.page-link:hover,
+            .pagination .prev:hover,
+            .pagination .next:hover {
+                background-color: #f5f5f5;
             }
-        </select>
 
-        <select name="language" class="form-select w-auto" style="min-width: 150px;">
-            <option value="">All Languages</option>
-            @foreach (var lang in (List<string>)ViewBag.Languages)
-            {
-                var isSelected = (ViewBag.Language == lang) ? "selected" : null;
-                <option value="@lang" selected="@isSelected">@lang</option>
-            }
-        </select>
+        .pagination .active {
+            background-color: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
 
-        <select name="sortOrder" class="form-select w-auto" style="min-width: 150px;">
-            <option value="">Sort By</option>
-            @{
-                var sortOrder = ViewBag.SortOrder as string;
-            }
-            <option value="price_asc" selected="@(sortOrder == "price_asc" ? "selected" : null)">Price: Low to High</option>
-            <option value="price_desc" selected="@(sortOrder == "price_desc" ? "selected" : null)">Price: High to Low</option>
-            <option value="rating" selected="@(sortOrder == "rating" ? "selected" : null)">Rating</option>
-            <option value="newest" selected="@(sortOrder == "newest" ? "selected" : null)">Newest</option>
-        </select>
+        .pagination .prev, .pagination .next {
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+</style>
 
-        <button type="submit" class="btn btn-primary">Apply</button>
-    </form>
-
-</div>
-<section>
-    <h1>Bestselling Books</h1>
-
-    <div class="container">
-        <!-- Main content with books -->
-        <div class="main-content">
-            <div class="books-grid">
-                @foreach (var book in Model)
-                {
-                    <div class="book-card">
-                        <span class="wishlist-icon">♡</span>
-                        <a asp-controller="Home" asp-action="Details" asp-route-id="@book.Id">
-                            <img src="@book.CoverImageUrl" class="book-cover" alt="@book.Title">
-                        </a>
-                        <h3 class="book-title">@book.Title</h3>
-                        <p class="book-author">@book.Author</p>
-                        <p class="book-price">
-                            @if (book.IsOnSale && book.DiscountPercentage > 0)
-                            {
-                                var discountedPrice = book.Price - (book.Price * book.DiscountPercentage / 100);
-                            <p>
-                                <span class="text-danger fw-bold">Rs. @discountedPrice</span>
-                                <small class="text-muted text-decoration-line-through">Rs.@book.Price:F2</small>
-                            </p>
-                            }
-                            else
-                            {
-                            <p class="fw-bold">Rs. @book.Price</p>
-                            }
-                        </p>
-
-                        <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post">
-                            <input type="hidden" name="bookId" value="@book.Id" />
-                            <input type="number" name="quantity" value="1" min="1" hidden />
-                            <button type="submit" class="add-to-cart w-100">Add to Cart</button>
-                        </form>
+<div class="container">
+    <!-- Sidebar with filters -->
+    <div class="sidebar">
+        <form method="get" id="filterForm">
+            <!-- Genre Filter -->
+            <div class="filter-section">
+                <div class="filter-header">
+                    <h3>Genre</h3>
+                    <span class="chevron down">^</span>
+                </div>
+                <div class="filter-content">
+                    <div class="checkbox-group">
+                        @foreach (var genre in SD.GenreList)
+                        {
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genre" value="@genre" 
+                                       @(ViewBag.Genre == genre ? "checked" : "")>
+                                <span>@genre</span>
+                            </label>
+                        }
                     </div>
-                }
+                </div>
             </div>
-
-            <!-- Pagination -->
-            <nav class="mt-4">
-                <ul class="pagination justify-content-center">
-
-                    @for (int i = 1; i <= totalPages; i++)
+        <!-- Language Filter -->
+        <div class="filter-section">
+            <div class="filter-header">
+                <h3>Language</h3>
+                <span class="chevron down">^</span>
+            </div>
+            <div class="filter-content">
+                <div class="checkbox-group">
+                    @foreach (var lang in (List<string>)ViewBag.Languages)
                     {
-                        <li class="page-item @(i == currentPage ? "active" : "")">
-                            <a class="page-link" href="@Url.Action("Catalog", new {
-                                                               search = ViewBag.Search,
-                                                               genre = ViewBag.SelectedGenre,
-                                                               language = ViewBag.Language,
-                                                               sortOrder = ViewBag.SortOrder,
-                                                               page = i
-                                                           })">@i</a>
-                        </li>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="language" value="@lang"
+                                   @(ViewBag.Language == lang ? "checked" : "")>
+                            <span>@lang</span>
+                        </label>
                     }
-
-                </ul>
-            </nav>
+                </div>
+            </div>
         </div>
+
+        <!-- Sort Order -->
+        <div class="filter-section">
+            <div class="filter-header">
+                <h3>Sort By</h3>
+                <span class="chevron down">^</span>
+            </div>
+            <div class="filter-content">
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="radio" name="sortOrder" value="price_asc" 
+                               @(ViewBag.SortOrder == "price_asc" ? "checked" : "")>
+                        <span>Price: Low to High</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="sortOrder" value="price_desc"
+                               @(ViewBag.SortOrder == "price_desc" ? "checked" : "")>
+                        <span>Price: High to Low</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="sortOrder" value="rating"
+                               @(ViewBag.SortOrder == "rating" ? "checked" : "")>
+                        <span>Rating</span>
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="radio" name="sortOrder" value="newest"
+                               @(ViewBag.SortOrder == "newest" ? "checked" : "")>
+                        <span>Newest</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search Input -->
+        <div class="filter-section">
+            <div class="filter-header">
+                <h3>Search</h3>
+            </div>
+            <div class="filter-content">
+                <input type="text" name="search" value="@ViewBag.Search" 
+                       class="form-control search-input" 
+                       placeholder="Search by title or author">
+            </div>
+        </div>
+
+        <!-- Apply Filters Button -->
+        <div class="filter-section">
+            <button type="submit" class="apply-filters-btn">Apply Filters</button>
+        </div>
+    </form>
+</div>
+
+<!-- Main content with books -->
+<div class="main-content">
+    <div class="books-grid">
+        @foreach (var book in Model)
+        {
+            <div class="book-card">
+                <span class="wishlist-icon">♡</span>
+                <img src="@book.CoverImageUrl" class="book-cover" alt="@book.Title">
+                <h3 class="book-title">@book.Title</h3>
+                <p class="book-author">@book.Author</p>
+
+                @if (book.IsOnSale && book.DiscountPercentage > 0)
+                {
+                    var discountedPrice = book.Price - (book.Price * book.DiscountPercentage / 100);
+                    <p class="book-price">
+                        <span class="discounted-price">Rs. @discountedPrice.ToString("0.00")</span>
+                        <span class="original-price">Rs. @book.Price.ToString("0.00")</span>
+                    </p>
+                }
+                else
+                {
+                    <p class="book-price">Rs. @book.Price.ToString("0.00")</p>
+                }
+
+                <button class="add-to-cart" onclick="location.href='@Url.Action("Details", "Home", new { id = book.Id })'">View Details</button>
+            </div>
+        }
     </div>
-</section>
+    
+    <!-- Pagination -->
+    <div class="pagination">
+        @if (currentPage > 1)
+        {
+            <a href="@Url.Action("Catalog", new { 
+                search = ViewBag.Search,
+                genre = ViewBag.Genre,
+                language = ViewBag.Language,
+                sortOrder = ViewBag.SortOrder,
+                page = currentPage - 1 
+            })" class="prev">← Prev</a>
+        }
+
+        @for (int i = 1; i <= totalPages; i++)
+        {
+            if (i == currentPage)
+            {
+                <button class="active">@i</button>
+            }
+            else
+            {
+                <a href="@Url.Action("Catalog", new {
+                    search = ViewBag.Search,
+                    genre = ViewBag.Genre,
+                    language = ViewBag.Language,
+                    sortOrder = ViewBag.SortOrder,
+                    page = i
+                })" class="page-link">@i</a>
+            }
+        }
+
+        @if (currentPage < totalPages)
+        {
+            <a href="@Url.Action("Catalog", new { 
+                search = ViewBag.Search,
+                genre = ViewBag.Genre,
+                language = ViewBag.Language,
+                sortOrder = ViewBag.SortOrder,
+                page = currentPage + 1 
+            })" class="next">Next →</a>
+        }
+    </div>
+</div>
+</div>
+@section Scripts {
+<script>
+// Filter section toggle
+document.querySelectorAll('.filter-header').forEach(header => {
+header.addEventListener('click', () => {
+const content = header.nextElementSibling;
+const chevron = header.querySelector('.chevron');
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                chevron.classList.add('down');
+            } else {
+                content.style.display = 'none';
+                chevron.classList.remove('down');
+            }
+        });
+    });
+    
+    // Wishlist functionality
+    document.querySelectorAll('.wishlist-icon').forEach(icon => {
+        icon.addEventListener('click', () => {
+            if (icon.innerHTML === '♡') {
+                icon.innerHTML = '♥';
+                icon.style.color = '#e74c3c';
+            } else {
+                icon.innerHTML = '♡';
+                icon.style.color = '#ccc';
+            }
+        });
+    });
+
+    // Filter form submission handler
+    document.getElementById('filterForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Collect selected genres
+        const selectedGenres = Array.from(
+            document.querySelectorAll('input[name="genre"]:checked')
+        ).map(el => el.value);
+
+        // Collect selected languages
+        const selectedLanguages = Array.from(
+            document.querySelectorAll('input[name="language"]:checked')
+        ).map(el => el.value);
+
+        // Get sort order
+        const sortOrder = document.querySelector('input[name="sortOrder"]:checked')?.value || '';
+
+        // Get search term
+        const searchTerm = document.querySelector('input[name="search"]').value;
+
+        // Construct query string
+        const queryParams = new URLSearchParams({
+            genre: selectedGenres.join(','),
+            language: selectedLanguages.join(','),
+            sortOrder: sortOrder,
+            search: searchTerm,
+            page: 1 // Reset to first page when applying filters
+        });
+
+        // Redirect to catalog page with filters
+        window.location.href = `@Url.Action("Catalog")` + '?' + queryParams.toString();
+    });
+</script>
+}

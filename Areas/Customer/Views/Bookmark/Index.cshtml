@@ -1,6 +1,8 @@
 ﻿@model IEnumerable<BookLibraryStore.Models.EntityModel.Bookmark>
 
-<link rel="stylesheet" href="~/css/wishList.css" />
+@{
+    ViewData["Title"] = "My Bookmarks";
+}
 
 <h2>@ViewData["Title"]</h2>
 
@@ -10,37 +12,24 @@
 }
 else
 {
-
-    <div>
-        <h1>My WishList</h1>
-
-        <div class="column-headers">
-            <div class="column-header">Image</div>
-            <div class="column-header">Product Details</div>
-            <div class="column-header">Price</div>
-            <div class="column-header">Actions</div>
-        </div>
-
+    <div class="row">
         @foreach (var item in Model)
         {
-            <div class="wishlist-item">
-                <div class="wishlist-item-image">
-                    <a asp-controller="Home" asp-action="Details" asp-route-id="@item.BookId">
-                    <img src="@item.Book.CoverImageUrl" alt="@item.Book.Title">
-                    </a>
-                </div>
-                <div class="wishlist-item-details">
-                    <div class="wishlist-item-title">@item.Book.Title</div>
-                    <div class="wishlist-item-author">@item.Book.Author</div>
-                </div>
-                <div class="wishlist-item-price">Rs. @item.Book.Price</div>
-                <div class="action-buttons">
-                    <form asp-controller="Bookmark" asp-action="Remove" asp-route-id="@item.Id" method="post" class="d-inline">
-                        <button type="submit" class="btn" onclick="return confirm('Remove this bookmark?');"><i class="bi bi-trash3-fill"></i></button>
-                    </form>
+            <div class="col-md-3 mb-4">
+                <div class="card h-100">
+                    <img src="@item.Book.CoverImageUrl" class="card-img-top" alt="@item.Book.Title" />
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Book.Title</h5>
+                        <p class="card-text">@item.Book.Author</p>
+                        <a asp-controller="Home" asp-action="Details" asp-route-id="@item.Book.Id" class="btn btn-primary btn-sm">View Details</a>
+
+                        <form asp-controller="Bookmark" asp-action="Remove" asp-route-id="@item.Id" method="post" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Remove this bookmark?');">Remove</button>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         }
-
     </div>
 }
