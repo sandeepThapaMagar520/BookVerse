@@ -1,0 +1,99 @@
+﻿@page
+@model RegisterModel
+
+@{
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/login.css" />
+
+<div class="auth">
+    <div class="auth__logo-container">
+        <img src="~/assets/logo.png" alt="Logo" />
+    </div>
+    <div class="auth__form-container">
+        <h1 class="auth__title">Sign Up</h1>
+
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post" class="auth__form">
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.Email" class="auth__label">Email</label>
+                <input asp-for="Input.Email" class="auth__input" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.FirstName" class="auth__label">First Name</label>
+                <input asp-for="Input.FirstName" class="auth__input" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.LastName" class="auth__label">Last Name</label>
+                <input asp-for="Input.LastName" class="auth__input" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
+            </div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.StreetAddress" class="auth__label">Street Address</label>
+                <input asp-for="Input.StreetAddress" class="auth__input" />
+                <span asp-validation-for="Input.StreetAddress" class="text-danger"></span>
+            </div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.City" class="auth__label">City</label>
+                <input asp-for="Input.City" class="auth__input" />
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.State" class="auth__label">State</label>
+                <input asp-for="Input.State" class="auth__input" />
+                <span asp-validation-for="Input.State" class="text-danger"></span>
+            </div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.PostalCode" class="auth__label">Postal Code</label>
+                <input asp-for="Input.PostalCode" class="auth__input" />
+                <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+            </div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.PhoneNumber" class="auth__label">Phone Number</label>
+                <input asp-for="Input.PhoneNumber" class="auth__input" />
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.Role" class="auth__label">Role</label>
+                <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="auth__input">
+                    <option disabled selected>-- Select Role --</option>
+                </select>
+            </div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.Password" class="auth__label">Password</label>
+                <input asp-for="Input.Password" class="auth__input" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            <div class="auth__form-group">
+                <label asp-for="Input.ConfirmPassword" class="auth__label">Confirm Password</label>
+                <input asp-for="Input.ConfirmPassword" class="auth__input" />
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="auth__button">Register</button>
+
+            <div class="auth__links">
+                Already have an account?
+                <a asp-page="./Login" class="auth__link auth__link--signup">Log In</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

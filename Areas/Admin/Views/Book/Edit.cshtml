@@ -1,0 +1,194 @@
+﻿@using BookLibraryStore.Utility
+@model BookLibraryStore.Models.EntityModel.Book
+
+@{
+    ViewData["Title"] = "Edit Book";
+}
+
+<h2>Edit Book</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <!-- Title -->
+    <div class="form-floating mb-3">
+        <input asp-for="Title" class="form-control" />
+        <label asp-for="Title"></label>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <!-- ISBN -->
+    <div class="form-floating mb-3">
+        <input asp-for="ISBN" class="form-control" />
+        <label asp-for="ISBN"></label>
+        <span asp-validation-for="ISBN" class="text-danger"></span>
+    </div>
+
+    <!-- Author -->
+    <div class="form-floating mb-3">
+        <input asp-for="Author" class="form-control" />
+        <label asp-for="Author"></label>
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+
+    <!-- Description -->
+    <div class="form-floating mb-3">
+        <textarea asp-for="Description" class="form-control" style="height: 100px;"></textarea>
+        <label asp-for="Description"></label>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <!-- Genre -->
+    <div class="form-floating mb-3">
+        <select asp-for="Genre" class="form-select">
+            <option value="" disabled>--Select Genre--</option>
+            @foreach (var genre in SD.GenreList)
+            {
+                <option value="@genre" selected="@(Model.Genre == genre)">@genre</option>
+            }
+        </select>
+        <label asp-for="Genre"></label>
+        <span asp-validation-for="Genre" class="text-danger"></span>
+    </div>
+
+    <!-- Publisher -->
+    <div class="form-floating mb-3">
+        <select asp-for="Publisher" class="form-select">
+            <option value="" disabled>--Publisher--</option>
+            @foreach (var publisher in SD.PublisherList)
+            {
+                <option value="@publisher" selected="@(Model.Publisher == publisher)">@publisher</option>
+            }
+        </select>
+        <label asp-for="Publisher"></label>
+        <span asp-validation-for="Publisher" class="text-danger"></span>
+    </div>
+
+    <!-- Other fields -->
+    <!-- Language -->
+    <div class="form-floating mb-3">
+        <input asp-for="Language" class="form-control" />
+        <label asp-for="Language"></label>
+        <span asp-validation-for="Language" class="text-danger"></span>
+    </div>
+
+    <!-- Format -->
+    <div class="form-floating mb-3">
+        <select asp-for="Format" class="form-select">
+            <option value="" disabled>--Select Format--</option>
+            <option value="@SD.FormatHardcover">@SD.FormatHardcover</option>
+            <option value="@SD.FormatPaperback">@SD.FormatPaperback</option>
+            <option value="@SD.FormateBook">@SD.FormateBook</option>
+        </select>
+        <label asp-for="Format"></label>
+        <span asp-validation-for="Format" class="text-danger"></span>
+    </div>
+
+    <!-- EditionType -->
+    <div class="form-floating mb-3">
+        <select asp-for="EditionType" class="form-select">
+            <option value="" disabled>--Select Edition Type--</option>
+            <option value="@SD.EditionCollector">@SD.EditionCollector</option>
+            <option value="@SD.EditionFirst">@SD.EditionFirst</option>
+            <option value="@SD.EditionLimited">@SD.EditionLimited</option>
+            <option value="@SD.EditionTypeSigned">@SD.EditionTypeSigned</option>
+        </select>
+        <label asp-for="EditionType"></label>
+        <span asp-validation-for="EditionType" class="text-danger"></span>
+    </div>
+
+    <!-- PageCount -->
+    <div class="form-floating mb-3">
+        <input asp-for="PageCount" class="form-control" />
+        <label asp-for="PageCount"></label>
+        <span asp-validation-for="PageCount" class="text-danger"></span>
+    </div>
+
+    <!-- Price -->
+    <div class="form-floating mb-3">
+        <input asp-for="Price" class="form-control" />
+        <label asp-for="Price"></label>
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <!-- IsOnSale -->
+    <div class="form-check mb-3">
+        <input asp-for="IsOnSale" class="form-check-input" />
+        <label asp-for="IsOnSale" class="form-check-label"></label>
+    </div>
+
+    <!-- Discount Percentage -->
+    <div class="form-floating mb-3">
+        <input asp-for="DiscountPercentage" class="form-control" />
+        <label asp-for="DiscountPercentage"></label>
+        <span asp-validation-for="DiscountPercentage" class="text-danger"></span>
+    </div>
+
+    <!-- Discount Dates -->
+    <div class="form-floating mb-3">
+        <input asp-for="DiscountStartDate" class="form-control" type="date" />
+        <label asp-for="DiscountStartDate"></label>
+        <span asp-validation-for="DiscountStartDate" class="text-danger"></span>
+    </div>
+
+    <div class="form-floating mb-3">
+        <input asp-for="DiscountEndDate" class="form-control" type="date" />
+        <label asp-for="DiscountEndDate"></label>
+        <span asp-validation-for="DiscountEndDate" class="text-danger"></span>
+    </div>
+
+    <!-- Stock Quantity -->
+    <div class="form-floating mb-3">
+        <input asp-for="StockQuantity" class="form-control" />
+        <label asp-for="StockQuantity"></label>
+        <span asp-validation-for="StockQuantity" class="text-danger"></span>
+    </div>
+
+    <!-- Publication Date -->
+    <div class="form-floating mb-3">
+        <input asp-for="PublicationDate" class="form-control" type="date" />
+        <label asp-for="PublicationDate"></label>
+        <span asp-validation-for="PublicationDate" class="text-danger"></span>
+    </div>
+
+    <!-- IsAwardWinner -->
+    <div class="form-check mb-3">
+        <input asp-for="IsAwardWinner" class="form-check-input" />
+        <label asp-for="IsAwardWinner" class="form-check-label"></label>
+    </div>
+
+    <!-- IsComingSoon -->
+    <div class="form-check mb-3">
+        <input asp-for="IsComingSoon" class="form-check-input" />
+        <label asp-for="IsComingSoon" class="form-check-label"></label>
+    </div>
+
+    <!-- IsAvailableInLibrary -->
+    <div class="form-check mb-3">
+        <input asp-for="IsAvailableInLibrary" class="form-check-input" />
+        <label asp-for="IsAvailableInLibrary" class="form-check-label"></label>
+    </div>
+
+    <!-- IsActive -->
+    <div class="form-check mb-3">
+        <input asp-for="IsActive" class="form-check-input" />
+        <label asp-for="IsActive" class="form-check-label"></label>
+    </div>
+
+    <!-- ✅ Cover Image Preview only (Not editable) -->
+    @if (!string.IsNullOrEmpty(Model.CoverImageUrl))
+    {
+        <div class="mb-3">
+            <label>Current Cover Image</label><br />
+            <img src="@Model.CoverImageUrl" style="max-width: 200px;" />
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Update Book</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

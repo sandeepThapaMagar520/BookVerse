@@ -1,0 +1,249 @@
+﻿@using BookLibraryStore.Models.EntityModel
+@using BookLibraryStore.Utility
+@model BookLibraryStore.Models.EntityModel.Book
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+<style>
+    img {
+        border-radius: 10px;
+    }
+
+    h2, h4 {
+        margin-bottom: 0.5rem;
+    }
+
+    ul li {
+        margin-bottom: 0.3rem;
+    }
+
+</style>
+
+<link rel="stylesheet" href="~/css/bookDetails.css" />
+
+<div class="container">
+    <div class="book-container">
+        <div class="book-image-container">
+            <img src="@Model.CoverImageUrl" alt="@Model.Title" class="book-image">
+
+            <div class="book-genres">
+                <span class="genre-tag">@Model.Genre</span>
+            </div>
+
+            <div class="action-buttons">
+                <!-- Add to Cart or Buy Button -->
+                <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post" class="w-100">
+                    <input type="hidden" name="bookId" value="@Model.Id" />
+                    <input type="number" name="quantity" value="1" min="1" hidden />
+                    <button type="submit" class="add-to-cart-btn w-100">Add to Cart</button>
+                </form>
+            </div>
+
+            @if (User.IsInRole(SD.Role_Customer))
+            {
+                <div class="action-buttons">
+                    <form asp-controller="Bookmark" asp-action="Add" method="post" class="w-100">
+                        <input type="hidden" name="bookId" value="@Model.Id" />
+                        <button type="submit" class="add-to-cart-btn w-100">Bookmark</button>
+                    </form>
+                </div>
+            }
+        </div>
+
+        <div class="book-details-container">
+            <h1 class="book-title">@Model.Title</h1>
+            <h2 class="book-author">@Model.Author</h2>
+
+            <div class="book-quote">
+                'One thing's for certain: The truth will come out, even if it's only those truths its characters choose to believe. Let the book club debates begin!' —ABC Arts
+            </div>
+
+            <div class="book-description">
+                <p>It was as if the present and the past were linked: a spider's web, wherein a shock to one strand could make the whole structure shake.</p>
+                <br>
+                <p>@Model.Description</p>
+            </div>
+
+            <div class="product-specs">
+                <h3 class="section-title">Product Details</h3>
+
+                <div class="spec-row">
+                    <div class="spec-name">Publisher</div>
+                    <div class="spec-value">@Model.Publisher (@Model.PublicationDate.ToString("MMMM dd, yyyy"))</div>
+                </div>
+
+                <div class="spec-row">
+                    <div class="spec-name">Language</div>
+                    <div class="spec-value">@Model.Language</div>
+                </div>
+
+                <div class="spec-row">
+                    <div class="spec-name">Paperback</div>
+                    <div class="spec-value">@Model.PageCount pages</div>
+                </div>
+
+                <div class="spec-row">
+                    <div class="spec-name">ISBN</div>
+                    <div class="spec-value">@Model.ISBN</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="reviews-section" id="reviews">
+        <div class="reviews-header">
+            <h2 class="section-title">Customer Reviews (@Model.ReviewCount)</h2>
+
+            @if (ViewBag.hasPurchase && !ViewBag.isReview)
+            {
+                <button class="write-review-btn" type="button" data-bs-toggle="modal" data-bs-target="#reviewModal">
+                    Write a Review
+                </button>
+            }
+
+        </div>
+
+
+        @if (ViewBag.hasPurchase)
+        {
+            if (ViewBag.isReview)
+            {
+                <!-- User's own review -->
+                @if (ViewBag.UserReview != null)
+                {
+                    var userReview = (Review)ViewBag.UserReview;
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="reviewer-info">
+                                <div class="reviewer-avatar">
+                                    @($"{userReview.User.FirstName.Substring(0, 1).ToUpper()}{userReview.User.LastName.Substring(0, 1).ToUpper()}")
+                                </div>
+                                <div>
+                                    <div class="reviewer-name">@userReview.User.FirstName @userReview.User.LastName</div>
+                                    <div class="review-date">@userReview.CreatedAt.ToString("MMMM dd, yyyy")</div>
+                                </div>
+                            </div>
+                            <div class="review-rating">
+                                @{
+                                    int rating = userReview.Rating;
+                                }
+
+                                <div class="review-rating">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= rating)
+                                        {
+                                            @:<span style="color: gold;">&#9733;</span>
+                                        }
+                                        else
+                                        {
+                                            @:<span style="color: lightgray;">&#9733;</span>
+                                        }
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="review-content">
+                            <p>
+                                @userReview.Comment
+                            </p>
+                        </div>
+                    </div>
+                }
+            }
+        }
+
+
+        <!-- Other users' reviews -->
+        @if (((List<Review>)ViewBag.OtherReviews).Any())
+        {
+            foreach (var review in (List<Review>)ViewBag.OtherReviews)
+            {
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">
+                                @($"{review.User.FirstName.Substring(0, 1).ToUpper()}{review.User.LastName.Substring(0, 1).ToUpper()}")
+                            </div>
+                            <div>
+                                <div class="reviewer-name">@review.User.FirstName @review.User.LastName</div>
+                                <div class="review-date">@review.CreatedAt.ToString("yyyy MMMM dd")</div>
+                            </div>
+                        </div>
+                        <div class="review-rating">
+                            <div class="review-rating">
+                                @{
+                                    int rating = review.Rating;
+                                }
+
+                                <div class="review-rating">
+                                    @for (int i = 1; i <= 5; i++)
+                                    {
+                                        if (i <= rating)
+                                        {
+                                            @:<span style="color: gold;">&#9733;</span>
+                                        }
+                                        else
+                                        {
+                                            @:<span style="color: lightgray;">&#9733;</span>
+                                        }
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <p>
+                            @review.Comment
+                        </p>
+                    </div>
+                </div>
+            }
+        }
+
+
+        <!-- Review Modal -->
+        <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form method="post" asp-action="SubmitReview" asp-controller="Review">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="reviewModalLabel">Write a Review</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="hidden" name="BookId" value="@Model.Id" />
+
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Rating (1 to 5)</label>
+                                <select name="Rating" class="form-select" required>
+                                    <option value="5">⭐⭐⭐⭐⭐ (5)</option>
+                                    <option value="4">⭐⭐⭐⭐ (4)</option>
+                                    <option value="3">⭐⭐⭐ (3)</option>
+                                    <option value="2">⭐⭐ (2)</option>
+                                    <option value="1">⭐ (1)</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="comment" class="form-label">Comment</label>
+                                <textarea name="Comment" class="form-control" maxlength="500" required></textarea>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

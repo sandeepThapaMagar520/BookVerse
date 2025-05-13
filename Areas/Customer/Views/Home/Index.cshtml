@@ -1,0 +1,117 @@
+﻿@using BookLibraryStore.Utility
+@model List<BookLibraryStore.Models.EntityModel.Book>
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+<!-- New Arrivals Section -->
+<section class="section">
+    <div class="section__header">
+        <h2 class="section__title">New Arrivals</h2>
+        <a class="section__link" asp-area="Customer" asp-controller="Home" asp-action="Catalog">View All</a>
+    </div>
+    <div class="books">
+        @foreach (var book in Model)
+        {
+            <div class="book">
+                <div class="book__image-container">
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@book.Id">
+                        <img src="@book.CoverImageUrl" alt="@book.Title" class="book__image">
+                    </a>
+                    <div class="book__favorite">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="book__info">
+                    <h3 class="book__title">@book.Title</h3>
+                    <p class="book__category">@book.Genre</p>
+                    <div class="book__price">
+                        @if (book.IsOnSale && book.DiscountPercentage > 0)
+                        {
+                            var discountedPrice = book.Price - (book.Price * book.DiscountPercentage / 100);
+                            <p>
+                                <span class="text-danger fw-bold">Rs. @discountedPrice</span>
+                                <small class="text-muted text-decoration-line-through">Rs. @book.Price</small>
+                            </p>
+                        }
+                        else
+                        {
+                            <span class="book__price-current">Rs. @book.Price</span>
+                        }
+                    </div>
+                    @if (User.IsInRole(SD.Role_Customer))
+                    {
+                        <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post" class="w-100">
+                            <input type="hidden" name="bookId" value="@book.Id" />
+                            <input type="number" name="quantity" value="1" min="1" hidden />
+                            <button type="submit" class="book__button w-100">Add to Cart</button>
+                        </form>
+                    }
+                </div>
+            </div>
+
+        }
+    </div>
+</section>
+
+<!-- Quote Section -->
+<section class="quote">
+    <div class="quote__container">
+        <p class="quote__text">"Books are the plane, and the train, and the road. They are the destination, and the journey. They are home."</p>
+        <p class="quote__author">—Sandeep Thapa Magar</p>
+    </div>
+</section>
+
+<!-- Top Related Books Section -->
+<section class="section">
+    <div class="section__header">
+        <h2 class="section__title">Most Popular Books</h2>
+        <a class="section__link" asp-area="Customer" asp-controller="Home" asp-action="Catalog">View All</a>
+    </div>
+    <div class="books">
+        @foreach (var book in ViewBag.TopOrderedBooks)
+        {
+            <div class="book">
+                <div class="book__image-container">
+                    <img src="@book.CoverImageUrl" alt="@book.Title" class="book__image">
+                    <div class="book__favorite">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="book__info">
+                    <h3 class="book__title">@book.Title</h3>
+                    <p class="book__category">@book.Genre</p>
+                    <div class="book__price">
+                        @if (book.IsOnSale && book.DiscountPercentage > 0)
+                        {
+                            var discountedPrice = book.Price - (book.Price * book.DiscountPercentage / 100);
+                            <p>
+                                <span class="text-danger fw-bold">Rs. @discountedPrice</span>
+                                <small class="text-muted text-decoration-line-through">Rs. @book.Price</small>
+                            </p>
+                        }
+                        else
+                        {
+                            <span class="book__price-current">Rs. @book.Price</span>
+                        }
+                    </div>
+                    @if (User.IsInRole(SD.Role_Customer))
+                    {
+                        <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post" class="w-100">
+                            <input type="hidden" name="bookId" value="@book.Id" />
+                            <input type="number" name="quantity" value="1" min="1" hidden />
+                            <button type="submit" class="book__button w-100">Add to Cart</button>
+                        </form>
+                    }
+                </div>
+            </div>
+
+        }
+    </div>
+</section>

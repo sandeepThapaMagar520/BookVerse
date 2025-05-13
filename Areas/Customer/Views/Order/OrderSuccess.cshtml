@@ -1,0 +1,117 @@
+﻿@using BookLibraryStore.Utility
+@model BookLibraryStore.Models.EntityModel.Order
+
+@{
+    ViewData["Title"] = "Order Successful";
+    var orderItems = ViewBag.OrderItems as List<BookLibraryStore.Models.EntityModel.OrderItem>;
+}
+
+@if (User.IsInRole(SD.Role_Customer))
+{
+    <h2 class="text-success">Order Placed Successfully!</h2>
+    <p class="text-muted">Provide claim code and Membership ID when picking up your order.</p>
+    <hr/>
+}
+
+<h4>Order Summary</h4>
+<table class="table table-bordered">
+    <tr>
+        <th>Order ID</th>
+        <td>@Model.Id</td>
+    </tr>
+    <tr>
+        <th>Order Date</th>
+        <td>@Model.OrderDate.ToString("dd MMM yyyy")</td>
+    </tr>
+    <tr>
+        <th>MemberShip ID</th>
+        <td><strong>@Model.ApplicationUser?.MembershipId</strong></td>
+    </tr>
+    <tr>
+        <th>Claim Code</th>
+        <td><strong>@Model.ClaimCode</strong></td>
+    </tr>
+    <tr>
+        <th>Status</th>
+        <td>
+            @switch (Model.Status)
+            {
+                case SD.OrderPending:
+                    <span class="badge bg-warning text-dark">Pending</span>
+                    break;
+                case SD.OrderCompleted:
+                    <span class="badge bg-success">Completed</span>
+                    break;
+                case SD.OrderCancelled:
+                    <span class="badge bg-danger">Canceled</span>
+                    break;
+                default:
+                    <span class="badge bg-secondary">@Model.Status</span>
+                    break;
+            }
+        </td>
+    </tr>
+</table>
+
+<h4>Books Ordered</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in orderItems)
+        {
+            <tr>
+                <td>@item.Book.Title</td>
+                <td>Rs. @item.UnitPrice</td>
+                <td>@item.Quantity</td>
+                <td>Rs. @(item.UnitPrice * item.Quantity)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h4>Bill Details</h4>
+<table class="table">
+    <tr>
+        <th>Subtotal</th>
+        <td>Rs. @Model.Subtotal</td>
+    </tr>
+    @if (Model.BulkDiscountAmount > 0)
+    {
+        <tr>
+            <th>Bulk Discount (5%)</th>
+            <td class="text-success">-Rs. @Model.BulkDiscountAmount</td>
+        </tr>
+    }
+    @if (Model.LoyaltyDiscountAmount > 0)
+    {
+        <tr>
+            <th>Loyalty Discount (10%)</th>
+            <td class="text-success">-Rs. @Model.LoyaltyDiscountAmount</td>
+        </tr>
+    }
+    <tr>
+        <th>Total Discount</th>
+        <td class="text-success">-Rs. @Model.TotalDiscountAmount</td>
+    </tr>
+    <tr>
+        <th>Grand Total</th>
+        <td class="text-primary"><strong>Rs.@Model.GrandTotal</strong></td>
+    </tr>
+</table>
+
+@if (User.IsInRole(SD.Role_Customer) && @Model.Status == SD.OrderCancelled)
+{
+    <a asp-controller="Order" asp-action="ReOrder" asp-route-orderId="@Model.Id" class="btn btn-primary w-25">Re-Order</a>
+}
+@if (User.IsInRole(SD.Role_Customer) && @Model.Status == SD.OrderPending)
+{
+    <a asp-controller="Order" asp-action="CancelOrder" asp-route-orderId="@Model.Id" class="btn btn-danger w-25">Cancel</a>
+
+}

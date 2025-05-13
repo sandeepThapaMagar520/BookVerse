@@ -1,0 +1,366 @@
+﻿@using BookLibraryStore.Utility
+@model BookLibraryStore.Models.EntityModel.ApplicationUser
+
+<style>
+    :root {
+        --primary-color: #4169E1;
+        --dark-bg: #121826;
+        --light-bg: #f5f5f7;
+        --text-color: #333;
+        --light-text: #fff;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    body {
+        background-color: var(--light-bg);
+    }
+
+
+
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .user-avatar {
+        background-color: var(--primary-color);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .page-title {
+        font-size: 1.75rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        color: var(--text-color);
+    }
+
+    .profile-section {
+        display: flex;
+        gap: 2rem;
+        background-color: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+
+    .sidebar {
+        background-color: var(--dark-bg);
+        padding: 2rem;
+        width: 300px;
+        color: var(--light-text);
+    }
+
+    .profile-photo {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        background-color: #2d3748;
+        margin: 0 auto 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 3px solid var(--primary-color);
+    }
+
+    .profile-name {
+        text-align: center;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .profile-email {
+        text-align: center;
+        color: #a0aec0;
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+    }
+
+    .profile-info-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 1rem;
+    }
+
+    .divider {
+        height: 1px;
+        background-color: #2d3748;
+        margin: 1.5rem 0;
+    }
+
+    .main-content {
+        flex: 1;
+        padding: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .edit-button {
+        color: var(--primary-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.9rem;
+    }
+
+    .info-section {
+        margin-bottom: 2.5rem;
+    }
+
+    .info-item {
+        margin-bottom: 1.5rem;
+    }
+
+    .info-label {
+        font-size: 0.9rem;
+        color: #718096;
+        margin-bottom: 0.5rem;
+    }
+
+    .info-value {
+        padding: 0.75rem;
+        background-color: #f7f7f7;
+        border-radius: 5px;
+        font-size: 0.95rem;
+    }
+
+        .info-value.readonly {
+            color: #718096;
+        }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+        display: block;
+        font-size: 0.9rem;
+        color: #718096;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+        border-radius: 5px;
+        font-size: 0.95rem;
+    }
+
+    .btn {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.95rem;
+    }
+</style>
+
+<div class="container">
+    <h1 class="page-title">Profile Management</h1>
+
+    <div class="profile-section">
+        <div class="sidebar">
+            <div class="profile-photo">
+                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+            </div>
+            <h2 class="profile-name">@Model.FirstName</h2>
+            <div class="profile-email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+                @Model.Email
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="profile-info-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                </svg>
+                @Model.PhoneNumber
+            </div>
+
+            <div class="profile-info-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                Password: ********
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="profile-info-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Member since: @Model.CreatedAt.ToString("MMMM dd, yyyy")
+            </div>
+
+            <div class="profile-info-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Membership ID: @Model.MembershipId
+            </div>
+
+            <div class="profile-info-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                SuccessfulOrderCount: @Model.SuccessfulOrderCount
+            </div>
+
+            <div class="profile-info-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                HasStackableDiscount: @Model.HasStackableDiscount
+            </div>
+
+            <div class="profile-info-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                Role: @if (User.IsInRole(SD.Role_Admin))
+                {
+                    <span>@SD.Role_Admin</span>
+                }
+                else if (User.IsInRole(SD.Role_Customer))
+                {
+                    <span>@SD.Role_Customer</span>
+                }
+                else if (User.IsInRole(SD.Role_Staff))
+                {
+                    <span>@SD.Role_Staff</span>
+                }
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="info-section">
+                <div class="section-title">
+                    Personal Information
+                </div>
+
+                <form asp-action="UpdateProfile" method="post">
+                    <div class="info-item">
+                        <div class="info-label">First Name</div>
+                        <input type="text" name="FirstName" class="form-control" value="@Model.FirstName" required />
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-label">Last Name</div>
+                        <input type="text" name="LastName" class="form-control" value="@Model.LastName" required />
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Email Address</div>
+                        <input type="email" class="form-control" value="@Model.Email" readonly />
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Phone Number</div>
+                        <input type="text" name="PhoneNumber" class="form-control" value="@Model.PhoneNumber" />
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Street Address</div>
+                        <input type="text" name="StreetAddress" class="form-control" value="@Model.StreetAddress" />
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">City</div>
+                        <input type="text" name="City" class="form-control" value="@Model.City" />
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">State</div>
+                        <input type="text" name="State" class="form-control" value="@Model.State" />
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Postal Code</div>
+                        <input type="text" name="PostalCode" class="form-control" value="@Model.PostalCode" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
+                </form>
+            </div>
+
+            <div class="info-section">
+                <div class="section-title">Change Password</div>
+
+                <form asp-action="ChangePassword" method="post">
+                    <div class="form-group">
+                        <label class="form-label">Current Password</label>
+                        <input type="password" name="oldPassword" class="form-control" placeholder="Enter your current password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">New Password</label>
+                        <input type="password" name="newPassword" class="form-control" placeholder="Enter your new password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password" name="confirmPassword" class="form-control" placeholder="Confirm your new password" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" ...></svg>
+                        Update Password
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

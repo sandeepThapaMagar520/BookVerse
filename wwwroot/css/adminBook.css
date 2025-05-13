@@ -1,0 +1,355 @@
+﻿:root {
+    --vercel-bg: #ffffff;
+    --vercel-fg: #000000;
+    --vercel-accent: #0070f3;
+    --vercel-accent-hover: #005cc5;
+    --vercel-border: #eaeaea;
+    --vercel-card-bg: #ffffff;
+    --vercel-muted: #666666;
+    --vercel-success: #0070f3;
+    --vercel-error: #ff0000;
+    --vercel-warning: #f5a623;
+    --vercel-hover: #f5f5f5;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: var(--vercel-bg);
+    color: var(--vercel-fg);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.app-header {
+    margin-bottom: 2rem;
+}
+
+.app-title {
+    font-weight: 700;
+    font-size: 1.75rem;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+}
+
+.app-subtitle {
+    color: var(--vercel-muted);
+    font-weight: 400;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    background-color: var(--vercel-card-bg);
+    border: 1px solid var(--vercel-border);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.card-header {
+    background-color: var(--vercel-card-bg);
+    border-bottom: 1px solid var(--vercel-border);
+    padding: 1.25rem 1.5rem;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.btn {
+    border-radius: 6px;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--vercel-accent);
+    border-color: var(--vercel-accent);
+    color: white;
+}
+
+    .btn-primary:hover, .btn-primary:focus {
+        background-color: var(--vercel-accent-hover);
+        border-color: var(--vercel-accent-hover);
+        box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+    }
+
+.btn-outline-primary {
+    color: var(--vercel-accent);
+    border-color: var(--vercel-accent);
+    background-color: transparent;
+}
+
+    .btn-outline-primary:hover, .btn-outline-primary:focus {
+        background-color: rgba(0, 112, 243, 0.1);
+        color: var(--vercel-accent);
+        border-color: var(--vercel-accent);
+    }
+
+.btn-outline-danger {
+    color: var(--vercel-error);
+    border-color: var(--vercel-error);
+    background-color: transparent;
+}
+
+    .btn-outline-danger:hover, .btn-outline-danger:focus {
+        background-color: rgba(255, 0, 0, 0.1);
+        color: var(--vercel-error);
+        border-color: var(--vercel-error);
+    }
+
+.btn-ghost {
+    background-color: transparent;
+    border-color: var(--vercel-border);
+    color: var(--vercel-fg);
+}
+
+    .btn-ghost:hover, .btn-ghost:focus {
+        background-color: var(--vercel-hover);
+    }
+
+.form-control, .form-select {
+    background-color: var(--vercel-card-bg);
+    border: 1px solid var(--vercel-border);
+    border-radius: 6px;
+    color: var(--vercel-fg);
+    padding: 0.75rem 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .form-control:focus, .form-select:focus {
+        background-color: var(--vercel-card-bg);
+        border-color: var(--vercel-accent);
+        box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.2);
+        color: var(--vercel-fg);
+    }
+
+.form-label {
+    color: var(--vercel-muted);
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.input-group-text {
+    background-color: var(--vercel-card-bg);
+    border: 1px solid var(--vercel-border);
+    color: var(--vercel-muted);
+}
+
+.search-container {
+    margin-bottom: 1.5rem;
+}
+
+.table {
+    color: var(--vercel-fg);
+    margin-bottom: 0;
+}
+
+    .table th {
+        border-top: none;
+        border-bottom: 1px solid var(--vercel-border);
+        color: var(--vercel-muted);
+        font-size: 0.875rem;
+        font-weight: 500;
+        padding: 1rem 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .table td {
+        border-bottom: 1px solid var(--vercel-border);
+        padding: 1rem 1.5rem;
+        vertical-align: middle;
+    }
+
+    .table tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+.table-hover tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+    .table-hover tbody tr:hover {
+        background-color: var(--vercel-hover);
+    }
+
+.badge {
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.35em 0.75em;
+}
+
+.badge-fiction {
+    background-color: rgba(0, 112, 243, 0.1);
+    color: var(--vercel-accent);
+}
+
+.badge-nonfiction {
+    background-color: rgba(245, 166, 35, 0.1);
+    color: #d97706;
+}
+
+.badge-scifi {
+    background-color: rgba(128, 90, 213, 0.1);
+    color: #7c3aed;
+}
+
+.badge-fantasy {
+    background-color: rgba(56, 178, 172, 0.1);
+    color: #0d9488;
+}
+
+.badge-mystery {
+    background-color: rgba(237, 100, 166, 0.1);
+    color: #db2777;
+}
+
+.badge-biography {
+    background-color: rgba(72, 187, 120, 0.1);
+    color: #059669;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--vercel-muted);
+}
+
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.5;
+    }
+
+    .empty-state h4 {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .empty-state p {
+        font-size: 0.875rem;
+    }
+
+.modal-content {
+    background-color: var(--vercel-card-bg);
+    border: 1px solid var(--vercel-border);
+    border-radius: 8px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--vercel-border);
+    padding: 1.25rem 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid var(--vercel-border);
+    padding: 1.25rem 1.5rem;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+
+.btn-close {
+    opacity: 0.7;
+}
+
+    .btn-close:hover {
+        opacity: 1;
+    }
+
+.toast-container {
+    z-index: 1060;
+}
+
+.toast {
+    background-color: var(--vercel-card-bg);
+    border: 1px solid var(--vercel-border);
+    border-radius: 6px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    color: var(--vercel-fg);
+}
+
+.toast-success {
+    border-left: 4px solid var(--vercel-success);
+}
+
+.toast-error {
+    border-left: 4px solid var(--vercel-error);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.action-button {
+    background-color: transparent;
+    border: 1px solid var(--vercel-border);
+    border-radius: 6px;
+    color: var(--vercel-muted);
+    cursor: pointer;
+    height: 2rem;
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+    .action-button:hover {
+        background-color: var(--vercel-hover);
+    }
+
+    .action-button.edit:hover {
+        color: var(--vercel-accent);
+        border-color: var(--vercel-accent);
+    }
+
+    .action-button.delete:hover {
+        color: var(--vercel-error);
+        border-color: var(--vercel-error);
+    }
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .table th, .table td {
+        padding: 0.75rem 1rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+}

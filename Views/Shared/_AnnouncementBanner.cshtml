@@ -1,0 +1,13 @@
+﻿@model List<BookLibraryStore.Models.EntityModel.Announcement>
+
+@if (Model != null && Model.Any())
+{
+    <div class="announcement-banner">
+        @foreach (var announcement in Model)
+        {
+            <div class="alert alert-info mb-0">
+                <strong>@announcement.Title:</strong> @announcement.Message
+            </div>
+        }
+    </div>
+}

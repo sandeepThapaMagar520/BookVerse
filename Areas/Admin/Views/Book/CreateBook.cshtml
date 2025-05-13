@@ -1,0 +1,196 @@
+﻿@using BookLibraryStore.Utility
+@model BookLibraryStore.Models.EntityModel.Book
+
+@{
+    ViewData["Title"] = "Add Book";
+}
+
+<h2 class="mb-4">Add New Book</h2>
+
+<form asp-action="CreateBook" method="post" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    
+    @foreach (var modelState in ViewData.ModelState.Values)
+    {
+        foreach (var error in modelState.Errors)
+        {
+            <div class="text-danger">@error.ErrorMessage</div>
+        }
+    }
+
+    <!-- Title -->
+    <div class="form-floating mb-3">
+        <input asp-for="Title" class="form-control" placeholder="Book Title" />
+        <label asp-for="Title"></label>
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <!-- ISBN -->
+    <div class="form-floating mb-3">
+        <input asp-for="ISBN" class="form-control" placeholder="ISBN" />
+        <label asp-for="ISBN"></label>
+        <span asp-validation-for="ISBN" class="text-danger"></span>
+    </div>
+
+    <!-- Author -->
+    <div class="form-floating mb-3">
+        <input asp-for="Author" class="form-control" placeholder="Author" />
+        <label asp-for="Author"></label>
+        <span asp-validation-for="Author" class="text-danger"></span>
+    </div>
+
+    <!-- Description -->
+    <div class="form-floating mb-3">
+        <textarea asp-for="Description" class="form-control" placeholder="Description" style="height: 100px;"></textarea>
+        <label asp-for="Description"></label>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <!-- Genre -->
+    <div class="form-floating mb-3">
+        <select class="form-select" asp-for="Genre">
+            <option value="" disabled selected="">--Select Genre--</option>
+            @foreach (var genre in SD.GenreList)
+            {
+                <option value="@genre">@genre</option>
+            }
+        </select>
+        <label asp-for="Genre"></label>
+        <span asp-validation-for="Genre" class="text-danger"></span>
+    </div>
+
+    <!-- Publisher -->
+    <div class="form-floating mb-3">
+        <select asp-for="Publisher" class="form-select">
+            <option value="" disabled selected="">--Publisher--</option>
+            @foreach (var publisher in SD.PublisherList)
+            {
+                <option value="@publisher">@publisher</option>
+            }
+        </select>
+        <label asp-for="Publisher"></label>
+        <span asp-validation-for="Publisher" class="text-danger"></span>
+    </div>
+
+    <!-- Language -->
+    <div class="form-floating mb-3">
+        <input asp-for="Language" class="form-control" placeholder="Language" />
+        <label asp-for="Language"></label>
+        <span asp-validation-for="Language" class="text-danger"></span>
+    </div>
+
+    <!-- Format -->
+    <div class="form-floating mb-3">
+        <select class="form-select" asp-for="Format">
+            <option value="" disabled selected="">--Select Format--</option>
+            <option value="@SD.FormatHardcover">@SD.FormatHardcover</option>
+            <option value="@SD.FormatPaperback">@SD.FormatPaperback</option>
+            <option value="@SD.FormateBook">@SD.FormateBook</option>
+        </select>
+        <label asp-for="Format"></label>
+        <span asp-validation-for="Format" class="text-danger"></span>
+    </div>
+
+    <!-- EditionType -->
+    <div class="form-floating mb-3">
+        <select class="form-select" asp-for="EditionType">
+            <option value="" disabled selected="">--Select Edition Type--</option>
+            <option value="@SD.EditionCollector">@SD.EditionCollector</option>
+            <option value="@SD.EditionFirst">@SD.EditionFirst</option>
+            <option value="@SD.EditionLimited">@SD.EditionLimited</option>
+            <option value="@SD.EditionTypeSigned">@SD.EditionTypeSigned</option>
+        </select>
+        <label asp-for="EditionType"></label>
+        <span asp-validation-for="EditionType" class="text-danger"></span>
+    </div>
+
+    <!-- PageCount -->
+    <div class="form-floating mb-3">
+        <input asp-for="PageCount" class="form-control" placeholder="Page Count" />
+        <label asp-for="PageCount"></label>
+        <span asp-validation-for="PageCount" class="text-danger"></span>
+    </div>
+
+    <!-- Price -->
+    <div class="form-floating mb-3">
+        <input asp-for="Price" class="form-control" placeholder="Price" />
+        <label asp-for="Price"></label>
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    
+    <div class="d-flex align-items-center gap-3 mb-3">
+        <!-- IsOnSale -->
+        <div class="form-check">
+            <input asp-for="IsOnSale" class="form-check-input" type="checkbox" id="IsOnSale" />
+            <label asp-for="IsOnSale" class="form-check-label">Is On Sale</label>
+            <span asp-validation-for="IsOnSale" class="text-danger"></span>
+        </div>
+
+        <!-- IsAwardWinner -->
+        <div class="form-check">
+            <input asp-for="IsAwardWinner" class="form-check-input" type="checkbox" id="IsAwardWinner" />
+            <label asp-for="IsAwardWinner" class="form-check-label">Is Award Winner</label>
+            <span asp-validation-for="IsAwardWinner" class="text-danger"></span>
+        </div>
+
+        <!-- IsComingSoon -->
+        <div class="form-check">
+            <input asp-for="IsComingSoon" class="form-check-input" type="checkbox" id="IsComingSoon" />
+            <label asp-for="IsComingSoon" class="form-check-label">Is Coming Soon</label>
+            <span asp-validation-for="IsComingSoon" class="text-danger"></span>
+        </div>
+    </div>
+    
+    <!-- Discount Percent-->
+    <div class="form-floating mb-3">
+        <input asp-for="DiscountPercentage" class="form-control" placeholder="DiscountPercentage" />
+        <label asp-for="DiscountPercentage"></label>
+        <span asp-validation-for="DiscountPercentage" class="text-danger"></span>
+    </div>
+    
+    <!-- DiscountStartDate -->
+    <div class="form-floating mb-3">
+        <input asp-for="DiscountStartDate" class="form-control" placeholder="DiscountStartDate" type="date"/>
+        <label asp-for="DiscountStartDate"></label>
+        <span asp-validation-for="DiscountStartDate" class="text-danger"></span>
+    </div>
+    
+    <!-- DiscountEndDate -->
+    <div class="form-floating mb-3">
+        <input asp-for="DiscountEndDate" class="form-control" placeholder="DiscountEndDate" type="date"/>
+        <label asp-for="DiscountEndDate"></label>
+        <span asp-validation-for="DiscountEndDate" class="text-danger"></span>
+    </div>
+
+    <!-- StockQuantity -->
+    <div class="form-floating mb-3">
+        <input asp-for="StockQuantity" class="form-control" placeholder="Quantity"/>
+        <label asp-for="StockQuantity"></label>
+        <span asp-validation-for="StockQuantity" class="text-danger"></span>
+    </div>
+    
+    <!-- Publication Date -->
+    <div class="form-floating mb-3">
+        <input asp-for="PublicationDate" class="form-control" type="date" />
+        <label asp-for="PublicationDate"></label>
+        <span asp-validation-for="PublicationDate" class="text-danger"></span>
+    </div>
+
+    <!-- Cover Image -->
+    <div class="mb-3">
+        <label asp-for="CoverImageUrl"></label>
+        <input type="file" name="file" class="form-control mt-2"/>
+        <span asp-validation-for="CoverImageUrl" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary w-100">Add Book</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
