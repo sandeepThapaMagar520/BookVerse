@@ -13,14 +13,7 @@ namespace BookLibraryStore.Areas.Customer.Controllers
     [Area("Customer")]
     public class HomeController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
-
-        public HomeController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
-        {
-            _context = context;
-            _userManager = userManager;
-        }
+        
 
         public IActionResult Index()
         {
@@ -106,7 +99,7 @@ namespace BookLibraryStore.Areas.Customer.Controllers
 
             if (!string.IsNullOrEmpty(userId))
             {
-                // Logged-in: separate user’s review and other reviews
+                // Logged-in: separate userï¿½s review and other reviews
                 userReview = reviewsQuery.FirstOrDefault(r => r.UserId == userId);
                 otherReviews = reviewsQuery.Where(r => r.UserId != userId).ToList();
             }
