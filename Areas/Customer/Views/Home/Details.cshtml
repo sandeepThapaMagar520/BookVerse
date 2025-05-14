@@ -30,8 +30,11 @@
 
             <div class="book-genres">
                 <span class="genre-tag">@Model.Genre</span>
+                @if (Model.IsOnSale)
+                {
+                    <p class="badge bg-warning text-dark">OnSale</p>
+                }
             </div>
-
             <div class="action-buttons">
                 <!-- Add to Cart or Buy Button -->
                 <form asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" method="post" class="w-100">
@@ -65,7 +68,20 @@
                 <br>
                 <p>@Model.Description</p>
             </div>
-
+            <div class="book__price">
+                @if (Model.IsOnSale && Model.DiscountPercentage > 0)
+                {
+                    var discountedPrice = Model.Price - (Model.Price * Model.DiscountPercentage / 100);
+                    <p>
+                        <span class="text-danger fw-bold">Rs. @discountedPrice</span>
+                        <small class="text-muted text-decoration-line-through">Rs. @Model.Price</small>
+                    </p>
+                }
+                else
+                {
+                    <span class="book__price-current">Rs. @Model.Price</span>
+                }
+            </div>
             <div class="product-specs">
                 <h3 class="section-title">Product Details</h3>
 

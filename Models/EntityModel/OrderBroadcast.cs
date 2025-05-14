@@ -17,7 +17,7 @@ namespace BookLibraryStore.Models.EntityModel
         [Required]
         [StringLength(200)]
         public string Message { get; set; }
-
+         
         public DateTime BroadcastTime { get; set; } = DateTime.UtcNow;
         public bool IsDisplayed { get; set; } = true;
 

@@ -32,7 +32,6 @@
 
                             @if (item.Quantity != 1)
                             {
-
                                 <a asp-action="Minus" asp-route-cartId="@item.Id" class="btn btn-outline-secondary btn-sm px-3 me-2">-</a>
                             }
                             <span class="fw-bold mx-2">@item.Quantity</span>
@@ -44,11 +43,11 @@
 
                         </div>
                     </div>
-                    <button class="remove-item">
+                    <a class="remove-item" asp-action="Remove" asp-route-cartId="@item.Id">
                         <svg class="remove-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
                         </svg>
-                    </button>
+                    </a>
                 </div>
             }
         }

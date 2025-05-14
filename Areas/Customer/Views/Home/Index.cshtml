@@ -1,148 +1,39 @@
 ﻿@model List<BookLibraryStore.Models.EntityModel.Book>
 
-    @{
+@{
     ViewData["Title"] = "Home";
-    }
+}
 
-    <link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/home.css" asp-append-version="true" />
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="hero__content">
-            <h1 class="hero__title">Discover Your Next Favorite Book</h1>
-            <p class="hero__subtitle">Explore our vast collection of books across all genres. Find your perfect read today!</p>
-            <div class="hero__buttons">
-                <a asp-area="Customer" asp-controller="Home" asp-action="Catalog" class="hero__button hero__button--primary">Browse Collection</a>
-                <a href="#services" class="hero__button hero__button--secondary">Our Services</a>
-            </div>
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero__content">
+        <h1 class="hero__title">Discover Your Next Favorite Book</h1>
+        <p class="hero__subtitle">Explore our vast collection of books across all genres. Find your perfect read today!</p>
+        <div class="hero__buttons">
+            <a asp-area="Customer" asp-controller="Home" asp-action="Catalog" class="hero__button hero__button--primary">Browse Collection</a>
+            <a href="#services" class="hero__button hero__button--secondary">Our Services</a>
         </div>
-        <div class="hero__image">
-            <img src="~/images/hero-books.png" alt="Stack of books" class="hero__img">
-        </div>
-    </section>
+    </div>
+    <div class="hero__image">
+        <img src="~/assets/hero.png" alt="Stack of books" class="hero__img">
+    </div>
+</section>
 
-    <!-- Features Section -->
-    <section class="features">
-        <div class="features__item">
-            <div class="features__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                </svg>
-            </div>
-            <h3 class="features__title">100,000+ Titles</h3>
-            <p class="features__description">Largest collection of books in the region</p>
-        </div>
-        <div class="features__item">
-            <div class="features__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 2v4"></path>
-                    <path d="m16 6-4-4-4 4"></path>
-                    <path d="M18 20a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2"></path>
-                    <path d="M18 14v-4"></path>
-                    <path d="m14 18 4 4 4-4"></path>
-                </svg>
-            </div>
-            <h3 class="features__title">Fast Delivery</h3>
-            <p class="features__description">Get your books within 24 hours</p>
-        </div>
-        <div class="features__item">
-            <div class="features__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
-                </svg>
-            </div>
-            <h3 class="features__title">Best Prices</h3>
-            <p class="features__description">Guaranteed lowest prices or we'll match it</p>
-        </div>
-        <div class="features__item">
-            <div class="features__icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-                </svg>
-            </div>
-            <h3 class="features__title">Secure Checkout</h3>
-            <p class="features__description">100% safe and secure payment</p>
-        </div>
-    </section>
+<section class="section">
+    <div class="section__header">
+        <h2 class="section__title">New Arrivals</h2>
+        <a class="section__link" asp-area="Customer" asp-controller="Home" asp-action="Catalog">View All</a>
+    </div>
+    <div class="books">
+        @foreach (var book in Model)
 
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="section__header">
-            <h2 class="section__title">Our Services</h2>
-            <p class="section__subtitle">We offer more than just books</p>
-        </div>
-        <div class="services__grid">
-            <div class="service__card">
-                <div class="service__icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
-                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
-                    </svg>
-                </div>
-                <h3 class="service__title">Book Subscriptions</h3>
-                <p class="service__description">Monthly curated book selections delivered to your door based on your preferences.</p>
-            </div>
-            <div class="service__card">
-                <div class="service__icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                        <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                    </svg>
-                </div>
-                <h3 class="service__title">Book Clubs</h3>
-                <p class="service__description">Join our community of readers with themed book clubs and discussion groups.</p>
-            </div>
-            <div class="service__card">
-                <div class="service__icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                    </svg>
-                </div>
-                <h3 class="service__title">Author Events</h3>
-                <p class="service__description">Meet your favorite authors at our exclusive book signings and talks.</p>
-            </div>
-            <div class="service__card">
-                <div class="service__icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-                    </svg>
-                </div>
-                <h3 class="service__title">Gift Wrapping</h3>
-                <p class="service__description">Beautiful gift wrapping options for any occasion at no extra cost.</p>
-            </div>
-            <div class="service__card">
-                <div class="service__icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="12" y1="8" x2="12" y2="12"></line>
-                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                    </svg>
-                </div>
-                <h3 class="service__title">Reading Recommendations</h3>
-                <p class="service__description">Personalized book recommendations from our expert staff.</p>
-            </div>
-            <div class="service__card">
-                <div class="service__icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M18 6L6 18"></path>
-                        <path d="M6 6l12 12"></path>
-                    </svg>
-                </div>
-                <h3 class="service__title">Rare & Collectible</h3>
-                <p class="service__description">Special collection of rare, signed, and first edition books.</p>
-            </div>
-        </div>
-    </section>
 
-    <!-- New Arrivals Section -->
-    <section class="section">
-        <div class="section__header">
-            <h2 class="section__title">New Arrivals</h2>
-            <a class="section__link" asp-area="Customer" asp-controller="Home" asp-action="Catalog">View All</a>
-        </div>
-        <div class="books">
-            @foreach (var book in Model)
+
+
+
+
 
         {
             <div class="book">
@@ -150,11 +41,7 @@
                     <a asp-controller="Home" asp-action="Details" asp-route-id="@book.Id">
                         <img src="@book.CoverImageUrl" alt="@book.Title" class="book__image">
                     </a>
-                    <div class="book__favorite">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </div>
+                   
                 </div>
                 <div class="book__info">
                     <h3 class="book__title">@book.Title</h3>
@@ -162,108 +49,242 @@
                     <div class="book__price">
                         @if (book.IsOnSale && book.DiscountPercentage > 0)
 
+
+
+
+
+
+
                         {
                             var discountedPrice = book.Price - (book.Price * book.DiscountPercentage / 100);
-                        <p>
-                            <span class="text-danger fw-bold">Rs. @discountedPrice</span>
-                            <small class="text-muted text-decoration-line-through">Rs. @book.Price</small>
-                        </p>
+                            <p>
+                                <span class="text-danger fw-bold">Rs. @discountedPrice</span>
+                                <small class="text-muted text-decoration-line-through">Rs. @book.Price</small>
+                            </p>
                         }
+
+
+
+
+
+
 
                         else
 
+
+
+
+
+
+
                         {
-                        <span class="book__price-current">Rs. @book.Price</span>
+                            <span class="book__price-current">Rs. @book.Price</span>
                         }
                     </div>
-                    <a href="#" class="book__button">Add to Cart</a>
+                   
                 </div>
             </div>
         }
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials">
-        <div class="section__header">
-            <h2 class="section__title">What Our Readers Say</h2>
-            <p class="section__subtitle">Trusted by thousands of book lovers</p>
+<!-- Features Section -->
+<section class="features">
+    <div class="features__item">
+        <div class="features__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
         </div>
-        <div class="testimonials__grid">
-            <div class="testimonial__card">
-                <div class="testimonial__content">
-                    <div class="testimonial__rating">
-                        ★★★★★
-                    </div>
-                    <p class="testimonial__text">"The best online bookstore I've found. Their recommendations are always spot on and delivery is super fast!"</p>
-                </div>
-                <div class="testimonial__author">
-                    <img src="~/images/testimonial1.jpg" alt="Sarah J." class="testimonial__avatar">
-                    <div class="testimonial__info">
-                        <h4 class="testimonial__name">Sarah J.</h4>
-                        <p class="testimonial__role">Avid Reader</p>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial__card">
-                <div class="testimonial__content">
-                    <div class="testimonial__rating">
-                        ★★★★★
-                    </div>
-                    <p class="testimonial__text">"I love their book subscription service. Every month I get books I wouldn't have discovered on my own."</p>
-                </div>
-                <div class="testimonial__author">
-                    <img src="~/images/testimonial2.jpg" alt="Michael T." class="testimonial__avatar">
-                    <div class="testimonial__info">
-                        <h4 class="testimonial__name">Michael T.</h4>
-                        <p class="testimonial__role">Book Club Member</p>
-                    </div>
-                </div>
-            </div>
-            <div class="testimonial__card">
-                <div class="testimonial__content">
-                    <div class="testimonial__rating">
-                        ★★★★☆
-                    </div>
-                    <p class="testimonial__text">"Great selection of rare books. I've found several first editions for my collection that were in perfect condition."</p>
-                </div>
-                <div class="testimonial__author">
-                    <img src="~/images/testimonial3.jpg" alt="Priya K." class="testimonial__avatar">
-                    <div class="testimonial__info">
-                        <h4 class="testimonial__name">Priya K.</h4>
-                        <p class="testimonial__role">Collector</p>
-                    </div>
-                </div>
-            </div>
+        <h3 class="features__title">100,000+ Titles</h3>
+        <p class="features__description">Largest collection of books in the region</p>
+    </div>
+    <div class="features__item">
+        <div class="features__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4"></path>
+                <path d="m16 6-4-4-4 4"></path>
+                <path d="M18 20a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2"></path>
+                <path d="M18 14v-4"></path>
+                <path d="m14 18 4 4 4-4"></path>
+            </svg>
         </div>
-    </section>
+        <h3 class="features__title">Fast Delivery</h3>
+        <p class="features__description">Get your books within 24 hours</p>
+    </div>
+    <div class="features__item">
+        <div class="features__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+            </svg>
+        </div>
+        <h3 class="features__title">Best Prices</h3>
+        <p class="features__description">Guaranteed lowest prices or we'll match it</p>
+    </div>
+    <div class="features__item">
+        <div class="features__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+        </div>
+        <h3 class="features__title">Secure Checkout</h3>
+        <p class="features__description">100% safe and secure payment</p>
+    </div>
+</section>
 
-    <!-- Quote Section -->
-    <div class="quote-banner">
-        <div class="quote-banner__content">
-            <p class="quote-banner__text">"Books are the plane, and the train, and the road. They are the destination, and the journey. They are home."</p>
-            <p class="quote-banner__author">—Sandeep Thapa Magar</p>
+<!-- Services Section -->
+<section id="services" class="services">
+    <div class="section__header">
+        <h2 class="section__title">Our Services</h2>
+        <p class="section__subtitle">We offer more than just books</p>
+    </div>
+    <div class="services__grid">
+        <div class="service__card">
+            <div class="service__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+            </div>
+            <h3 class="service__title">Book Subscriptions</h3>
+            <p class="service__description">Monthly curated book selections delivered to your door based on your preferences.</p>
+        </div>
+        <div class="service__card">
+            <div class="service__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                </svg>
+            </div>
+            <h3 class="service__title">Book Clubs</h3>
+            <p class="service__description">Join our community of readers with themed book clubs and discussion groups.</p>
+        </div>
+        <div class="service__card">
+            <div class="service__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+            </div>
+            <h3 class="service__title">Author Events</h3>
+            <p class="service__description">Meet your favorite authors at our exclusive book signings and talks.</p>
+        </div>
+        <div class="service__card">
+            <div class="service__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                </svg>
+            </div>
+            <h3 class="service__title">Gift Wrapping</h3>
+            <p class="service__description">Beautiful gift wrapping options for any occasion at no extra cost.</p>
+        </div>
+        <div class="service__card">
+            <div class="service__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            <h3 class="service__title">Reading Recommendations</h3>
+            <p class="service__description">Personalized book recommendations from our expert staff.</p>
+        </div>
+        <div class="service__card">
+            <div class="service__icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6L6 18"></path>
+                    <path d="M6 6l12 12"></path>
+                </svg>
+            </div>
+            <h3 class="service__title">Rare & Collectible</h3>
+            <p class="service__description">Special collection of rare, signed, and first edition books.</p>
         </div>
     </div>
+</section>
 
-    <!-- Top Related Books Section -->
-    <section class="section">
-        <div class="section__header">
-            <h2 class="section__title">Most Popular Books</h2>
-            <a class="section__link" asp-area="Customer" asp-controller="Home" asp-action="Catalog">View All</a>
+<!-- New Arrivals Section -->
+
+<!-- Testimonials Section -->
+<section class="testimonials">
+    <div class="section__header">
+        <h2 class="section__title">What Our Readers Say</h2>
+        <p class="section__subtitle">Trusted by thousands of book lovers</p>
+    </div>
+    <div class="testimonials__grid">
+        <div class="testimonial__card">
+            <div class="testimonial__content">
+                <div class="testimonial__rating">
+                    ★★★★★
+                </div>
+                <p class="testimonial__text">"The best online bookstore I've found. Their recommendations are always spot on and delivery is super fast!"</p>
+            </div>
+            <div class="testimonial__author">
+                <img src="~/assets/p1.jpg" alt="Sarah J." class="testimonial__avatar">
+                <div class="testimonial__info">
+                    <h4 class="testimonial__name">Sarah J.</h4>
+                    <p class="testimonial__role">Avid Reader</p>
+                </div>
+            </div>
         </div>
-        <div class="books">
-            @foreach (var book in ViewBag.TopOrderedBooks)
+        <div class="testimonial__card">
+            <div class="testimonial__content">
+                <div class="testimonial__rating">
+                    ★★★★★
+                </div>
+                <p class="testimonial__text">"I love their book subscription service. Every month I get books I wouldn't have discovered on my own."</p>
+            </div>
+            <div class="testimonial__author">
+                <img src="~/assets/p2.jpg" alt="Michael T." class="testimonial__avatar">
+                <div class="testimonial__info">
+                    <h4 class="testimonial__name">Michael T.</h4>
+                    <p class="testimonial__role">Book Club Member</p>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial__card">
+            <div class="testimonial__content">
+                <div class="testimonial__rating">
+                    ★★★★☆
+                </div>
+                <p class="testimonial__text">"Great selection of rare books. I've found several first editions for my collection that were in perfect condition."</p>
+            </div>
+            <div class="testimonial__author">
+                <img src="~/assets/p3.jpg" alt="Priya K." class="testimonial__avatar">
+                <div class="testimonial__info">
+                    <h4 class="testimonial__name">Priya K.</h4>
+                    <p class="testimonial__role">Collector</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Quote Section -->
+<div class="quote-banner">
+    <div class="quote-banner__content">
+        <p class="quote-banner__text">"Books are the plane, and the train, and the road. They are the destination, and the journey. They are home."</p>
+        <p class="quote-banner__author">—Sandeep Thapa Magar</p>
+    </div>
+</div>
+
+<!-- Top Related Books Section -->
+<section class="section">
+    <div class="section__header">
+        <h2 class="section__title">Most Popular Books</h2>
+        <a class="section__link" asp-area="Customer" asp-controller="Home" asp-action="Catalog">View All</a>
+    </div>
+    <div class="books">
+        @foreach (var book in ViewBag.TopOrderedBooks)
+
+
 
         {
             <div class="book">
                 <div class="book__image-container">
-                    <img src="@book.CoverImageUrl" alt="@book.Title" class="book__image">
-                    <div class="book__favorite">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                        </svg>
-                    </div>
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@book.Id">
+                        <img src="@book.CoverImageUrl" alt="@book.Title" class="book__image">
+                    </a>
+
                 </div>
                 <div class="book__info">
                     <h3 class="book__title">@book.Title</h3>
@@ -271,37 +292,43 @@
                     <div class="book__price">
                         @if (book.IsOnSale && book.DiscountPercentage > 0)
 
+
+
                         {
                             var discountedPrice = book.Price - (book.Price * book.DiscountPercentage / 100);
-                        <p>
-                            <span class="text-danger fw-bold">Rs. @discountedPrice</span>
-                            <small class="text-muted text-decoration-line-through">Rs. @book.Price</small>
-                        </p>
+                            <p>
+                                <span class="text-danger fw-bold">Rs. @discountedPrice</span>
+                                <small class="text-muted text-decoration-line-through">Rs. @book.Price</small>
+                            </p>
                         }
+
+
 
                         else
 
+
+
                         {
-                        <span class="book__price-current">Rs. @book.Price</span>
+                            <span class="book__price-current">Rs. @book.Price</span>
                         }
                     </div>
-                    <a href="#" class="book__button">Add to Cart</a>
+                    
                 </div>
             </div>
         }
-        </div>
-    </section>
+    </div>
+</section>
 
-    <!-- Newsletter Section -->
-    <section class="newsletter">
-        <div class="newsletter__container">
-            <div class="newsletter__content">
-                <h2 class="newsletter__title">Stay Updated</h2>
-                <p class="newsletter__subtitle">Subscribe to our newsletter for the latest releases and exclusive offers</p>
-            </div>
-            <form class="newsletter__form">
-                <input type="email" placeholder="Your email address" class="newsletter__input" required>
-                <button type="submit" class="newsletter__button">Subscribe</button>
-            </form>
+<!-- Newsletter Section -->
+<section class="newsletter">
+    <div class="newsletter__container">
+        <div class="newsletter__content">
+            <h2 class="newsletter__title">Stay Updated</h2>
+            <p class="newsletter__subtitle">Subscribe to our newsletter for the latest releases and exclusive offers</p>
         </div>
-    </section>
+        <form class="newsletter__form">
+            <input type="email" placeholder="Your email address" class="newsletter__input" required>
+            <button type="submit" class="newsletter__button">Subscribe</button>
+        </form>
+    </div>
+</section>
